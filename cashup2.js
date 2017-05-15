@@ -49,11 +49,20 @@ var cashup2 = (function() {
 
 	// Initialise app with passed config
 	var init = function(config) {
+		var appContainer = document.getElementById(config.id);
+		if (!appContainer) {
+			console.warn("Can't find the id in config.id");
+			return;
+		}
+		if (config.names.length !== 2) {
+			console.warn("Please provide 2 names in config.names");
+			return;
+		}
 		// Add persons
 		persons.push((new Person(config.names[0])));
 		persons.push((new Person(config.names[1])));
 		// Initial app render
-		document.getElementById(config.id).appendChild(App());
+		appContainer.appendChild(App());
 		// Add events
 		addAmountButtons[0].addEventListener("click", addAmount);
 		addAmountButtons[1].addEventListener("click", addAmount);
