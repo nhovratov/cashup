@@ -29,6 +29,10 @@ var cashup2 = (function() {
 		this.amounts.push(amount);
 	}
 
+	Person.prototype.removeAmount = function(index) {
+		this.amounts.splice(index, 1);
+	}
+
 	// Amount
 	var Amount = function() {
 		this.value = '';
@@ -77,6 +81,7 @@ var cashup2 = (function() {
 		addAmountButtons[0].addEventListener("click", addAmountInput);
 		addAmountButtons[1].addEventListener("click", addAmountInput);
 	}
+
 	// Factory functions for static app structure
 	var App = function() {
 		var form = document.createElement("form");
@@ -129,10 +134,12 @@ var cashup2 = (function() {
 		var div = document.createElement("div");
 		var amountInput = document.createElement("input");
 		var numSpan = document.createElement("span");
+		var removeButton = document.createElement("button");
 		var config = (new AmountInput(index).getConfig());
 
 		div.className = "amount";
 		numSpan.innerHTML = Number(num) + 1;
+		removeButton.innerHTML = "X";
 
 		// Set the default attributes for input field
 		for (var conf in config) {
@@ -143,8 +150,10 @@ var cashup2 = (function() {
 			amountInput.value = value;
 		}
 
+		removeButton.addEventListener("click", removeAmountInput);
 		div.appendChild(numSpan);
 		div.appendChild(amountInput);
+		div.appendChild(removeButton);
 		return div; 
 	}
 
@@ -155,6 +164,18 @@ var cashup2 = (function() {
 		fetchValues(index);
 		persons[index].addAmount((new Amount()));
 		render(index);
+	}
+
+	var removeAmountInput = function(e) {
+		e.preventDefault();
+		var target = e.target;
+		var child = target.parentElement;
+		var parent = child.parentElement;
+		var personIndex = parseInt(parent.id) - 1;
+		var index = Array.prototype.indexOf.call(parent.children, child);
+		fetchValues(personIndex);
+		persons[personIndex].removeAmount(index);
+		render(personIndex);
 	}
 
 	// Update Data Structure, when buttons are pressed

@@ -12,11 +12,21 @@ describe("Person", function() {
     });
   });
   describe("addAmount", function() {
-    it("should add a Amount to the list", function() {
+    it("should add an Amount to the list", function() {
       var person = new Person("Nikita");
       var amount = new Amount();
       person.addAmount(amount);
       assert(person.amounts.length === 1, "No Amount added to the list");
+    });
+  });
+  describe("removeAmount", function() {
+    it("should remove an Amount from the list", function() {
+      var person = new Person("Nikita");
+      person.addAmount(new Amount());
+      person.addAmount(new Amount());
+      person.addAmount(new Amount());
+      person.removeAmount(1,1);
+      assert(person.amounts.length === 2, "No Amount removed from the list");
     });
   });
 });
