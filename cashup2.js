@@ -126,37 +126,46 @@ var cashup2 = (function() {
 
 	// Update Data Structure, when buttons are pressed
 	var fetchAllValues = function(index) {
-		var items = persons[index].amounts;
-		var len = items.length;
-		var amount;
-		var val;
-		for (var item = 0; item < len; item++) {
-			amount = amountsContainers[index]["children"][item];
+		var amounts = persons[index].amounts;
+		var len = amounts.length;
+		for (var i = 0, amount, val; i < len; i++) {
+			amount = amountsContainers[index]["children"][i];
 			val = amount.querySelector("." + Amount.prototype.config.className).value;
-			items[item].setValue(val);
+			amounts[i].setValue(val);
 		}
 	}
 
 	// Render function
 	var render = function(index) {
-		var items = persons[index].amounts;
+		var amounts = persons[index].amounts;
+		var len = amounts.length;
+		var div = document.createElement("div");
+		var input = document.createElement("input");
+		var numSpan = document.createElement("span");
+
+		div.className = "amount";
+		// Remove all amount input fields
 		clearContainer(amountsContainers[index]);
-		for (var item in items) {
-			var amount = document.createElement("div");
-			var input = document.createElement("input");
-			var numeration = document.createElement("span");
-			var config = items[item].config;
-			numeration.innerHTML = Number(item) + 1;
-			amount.className = "amount_Item";
+		// Render an input field for each amount
+		for (var i = 0, config, numClone, inputClone, divClone; i < len; i++) {
+			config = amounts[i].config;
+			numClone = numSpan.cloneNode();
+			divClone = div.cloneNode();
+			inputClone = input.cloneNode();
+
+			numClone.innerHTML = Number(i) + 1;
+			// Set the default attributes for input field
 			for (var conf in config) {
-				input[conf] = config[conf];
+				inputClone[conf] = config[conf];
 			}
-			if (items[item].value !== '') {
-				input.value = items[item].value;
+			// If the value in amount is not Null, set it to the input value
+			if (amounts[i].value !== '') {
+				inputClone.value = amounts[i].value;
 			}
-			amount.appendChild(numeration);
-			amount.appendChild(input);
-			amountsContainers[index].appendChild(amount);
+			// Append everything to the DOM
+			divClone.appendChild(numClone);
+			divClone.appendChild(inputClone);
+			amountsContainers[index].appendChild(divClone);
 		}
 	}
 
