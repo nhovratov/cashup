@@ -33,7 +33,8 @@ var cashup2 = (function() {
 	}
 
 	Amount.prototype.updateValue = function(person, item) {
-		var val = amountsContainers[person]["children"][item].querySelector(".amount_input").value;
+		var amount = amountsContainers[person]["children"][item];
+		var val = amount.querySelector("." + Amount.prototype.config.className).value;
 		if (val !== '') {
 			this.value = parseFloat(val);
 		}
