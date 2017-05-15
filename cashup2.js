@@ -30,7 +30,7 @@ var cashup2 = (function() {
 	}
 
 	// Amount
-	var Amount = function(index) {
+	var Amount = function() {
 		this.value = '';
 	}
 
