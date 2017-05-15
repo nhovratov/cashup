@@ -15,6 +15,7 @@ var cashup2 = (function() {
 	var calcButton;
 
 	// Data Structures / Models
+	// Person
 	var Person = function(name) {
 		this.name = name;
 		this.amounts = [];
@@ -28,16 +29,9 @@ var cashup2 = (function() {
 		this.amounts.push(amount);
 	}
 
+	// Amount
 	var Amount = function(index) {
 		this.value = '';
-		this.config.name = "amount_" + (index + 1) + "[]";
-	}
-
-	Amount.prototype.config = {
-		className: "amount_input",
-		required: "required",
-		type: "number",
-		step: "0.01",
 	}
 
 	Amount.prototype.setValue = function(val) {
@@ -45,6 +39,22 @@ var cashup2 = (function() {
 			this.value = parseFloat(val);
 		}
 		this.value = val;
+	}
+
+	// Holds the config for new input fields for amounts
+	var AmountInput = function(index) {
+		this.config.name = (index + 1) + "_amount[]";
+	}
+
+	AmountInput.prototype.config = {
+		className: "amount_input",
+		required: "required",
+		type: "number",
+		step: "0.01",
+	}
+
+	AmountInput.prototype.getConfig = function() {
+		return this.config;
 	}
 
 	// Initialise app with passed config
@@ -115,57 +125,61 @@ var cashup2 = (function() {
 		return personContainer;
 	}
 
+	var AmountContainer = function(index, num, value) {
+		var div = document.createElement("div");
+		var amountInput = document.createElement("input");
+		var numSpan = document.createElement("span");
+		var config = (new AmountInput(index).getConfig());
+
+		div.className = "amount";
+		numSpan.innerHTML = Number(num) + 1;
+
+		// Set the default attributes for input field
+		for (var conf in config) {
+			amountInput[conf] = config[conf];
+		}
+
+		if (value !== null) {
+			amountInput.value = value;
+		}
+
+		div.appendChild(numSpan);
+		div.appendChild(amountInput);
+		return div; 
+	}
+
 	// Event functions
 	var addAmount = function(e) {
 		e.preventDefault();
 		var index = parseInt(e.target.id) - 1;
-		fetchAllValues(index);
+		fetchValues(index);
 		persons[index].addItem((new Amount(index)));
 		render(index);
 	}
 
 	// Update Data Structure, when buttons are pressed
-	var fetchAllValues = function(index) {
+	var fetchValues = function(index) {
 		var amounts = persons[index].amounts;
 		var len = amounts.length;
 		for (var i = 0, amount, val; i < len; i++) {
 			amount = amountsContainers[index]["children"][i];
-			val = amount.querySelector("." + Amount.prototype.config.className).value;
+			val = amount.querySelector("." + AmountInput.prototype.config.className).value;
 			amounts[i].setValue(val);
 		}
 	}
 
-	// Render function
+	// Render Objects to html
 	var render = function(index) {
 		var amounts = persons[index].amounts;
 		var len = amounts.length;
-		var div = document.createElement("div");
-		var input = document.createElement("input");
-		var numSpan = document.createElement("span");
-
-		div.className = "amount";
-		// Remove all amount input fields
+		var value;
 		clearContainer(amountsContainers[index]);
-		// Render an input field for each amount
-		for (var i = 0, config, numClone, inputClone, divClone; i < len; i++) {
-			config = amounts[i].config;
-			numClone = numSpan.cloneNode();
-			divClone = div.cloneNode();
-			inputClone = input.cloneNode();
-
-			numClone.innerHTML = Number(i) + 1;
-			// Set the default attributes for input field
-			for (var conf in config) {
-				inputClone[conf] = config[conf];
-			}
-			// If the value in amount is not Null, set it to the input value
+		for (var i = 0; i < len; i++) {
+			value = null;
 			if (amounts[i].value !== '') {
-				inputClone.value = amounts[i].value;
+				value = amounts[i].value;
 			}
-			// Append everything to the DOM
-			divClone.appendChild(numClone);
-			divClone.appendChild(inputClone);
-			amountsContainers[index].appendChild(divClone);
+			amountsContainers[index].appendChild(AmountContainer(index, i, value));
 		}
 	}
 
