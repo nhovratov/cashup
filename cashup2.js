@@ -74,8 +74,8 @@ var cashup2 = (function() {
 		// Initial app render
 		appContainer.appendChild(App());
 		// Add events
-		addAmountButtons[0].addEventListener("click", addAmount);
-		addAmountButtons[1].addEventListener("click", addAmount);
+		addAmountButtons[0].addEventListener("click", addAmountInput);
+		addAmountButtons[1].addEventListener("click", addAmountInput);
 	}
 	// Factory functions for static app structure
 	var App = function() {
@@ -149,11 +149,11 @@ var cashup2 = (function() {
 	}
 
 	// Event functions
-	var addAmount = function(e) {
+	var addAmountInput = function(e) {
 		e.preventDefault();
 		var index = parseInt(e.target.id) - 1;
 		fetchValues(index);
-		persons[index].addAmount((new Amount(index)));
+		persons[index].addAmount((new Amount()));
 		render(index);
 	}
 
