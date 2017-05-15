@@ -21,7 +21,7 @@ var cashup2 = (function() {
 		this.amounts = [];
 	}
 
-	Person.prototype.addItem = function(amount) {
+	Person.prototype.addAmount = function(amount) {
 		if (Object.getPrototypeOf(amount).constructor !== Amount) {
 			console.error("Amount must be of type amount");
 			return;
@@ -153,7 +153,7 @@ var cashup2 = (function() {
 		e.preventDefault();
 		var index = parseInt(e.target.id) - 1;
 		fetchValues(index);
-		persons[index].addItem((new Amount(index)));
+		persons[index].addAmount((new Amount(index)));
 		render(index);
 	}
 
@@ -192,6 +192,9 @@ var cashup2 = (function() {
 
 	return {
 		init: init,
-		persons: persons,
+		api: {
+			Person: Person,
+			Amount: Amount,
+		},
 	}
 }());
