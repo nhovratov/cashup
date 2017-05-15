@@ -30,7 +30,7 @@ var cashup2 = (function() {
 
 	var Amount = function(index) {
 		this.value = '';
-		this.config.name = "amount_" + index + "[]";	
+		this.config.name = "amount_" + (index + 1) + "[]";	
 	}
 
 	Amount.prototype.config = {
