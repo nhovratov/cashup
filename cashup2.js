@@ -30,7 +30,7 @@ var cashup2 = (function() {
 
 	var Amount = function(index) {
 		this.value = '';
-		this.config.name = "amount_" + (index + 1) + "[]";	
+		this.config.name = "amount_" + (index + 1) + "[]";
 	}
 
 	Amount.prototype.config = {
@@ -72,15 +72,17 @@ var cashup2 = (function() {
 		calcButton.innerHTML = "Berechnen!";
 
 		fieldset.appendChild(legend);
-		fieldset.appendChild(PersonContainer(persons[0]["name"], 1));
-		fieldset.appendChild(PersonContainer(persons[1]["name"], 2));
+		fieldset.appendChild(PersonContainer(0));
+		fieldset.appendChild(PersonContainer(1));
 		fieldset.appendChild(calcButton);
 		form.appendChild(fieldset);
 
 		return form;
 	}
 
-	var PersonContainer = function(name, num) {
+	var PersonContainer = function(index) {
+		var name = persons[index].name;
+		var num = index + 1;
 		var personContainer = document.createElement("div");
 		var headerName = document.createElement("p");
 		var amountsContainer = document.createElement("div");
