@@ -40,9 +40,7 @@ var cashup2 = (function() {
 		step: "0.01",
 	}
 
-	Amount.prototype.updateValue = function(person, item) {
-		var amount = amountsContainers[person]["children"][item];
-		var val = amount.querySelector("." + Amount.prototype.config.className).value;
+	Amount.prototype.setValue = function(val) {
 		if (val !== '') {
 			this.value = parseFloat(val);
 		}
@@ -119,8 +117,12 @@ var cashup2 = (function() {
 	var fetchAllValues = function(index) {
 		var items = persons[index].amountItems;
 		var len = items.length;
+		var amount;
+		var val;
 		for (var item = 0; item < len; item++) {
-			items[item].updateValue(index, item);
+			amount = amountsContainers[index]["children"][item];
+			val = amount.querySelector("." + Amount.prototype.config.className).value;
+			items[item].setValue(val);
 		}
 	}
 
