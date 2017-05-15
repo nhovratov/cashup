@@ -20,6 +20,14 @@ var cashup2 = (function() {
 		this.amountItems = [];
 	}
 
+	Person.prototype.addItem = function(amount) {
+		if (Object.getPrototypeOf(amount).constructor !== Amount) {
+			console.error("Amount must be of type amount");
+			return;
+		}
+		this.amountItems.push(amount);
+	}
+
 	var Amount = function(index) {
 		this.value = '';
 		this.config.name = "amount_" + index + "[]";	
@@ -103,7 +111,7 @@ var cashup2 = (function() {
 		e.preventDefault();
 		var index = parseInt(e.target.id) - 1;
 		fetchAllValues(index);
-		persons[index].amountItems.push((new Amount(index)));
+		persons[index].addItem((new Amount(index)));
 		render(index);
 	}
 
