@@ -17,7 +17,7 @@ var cashup2 = (function() {
 	// Data Structures / Models
 	var Person = function(name) {
 		this.name = name;
-		this.amountItems = [];
+		this.amounts = [];
 	}
 
 	Person.prototype.addItem = function(amount) {
@@ -25,7 +25,7 @@ var cashup2 = (function() {
 			console.error("Amount must be of type amount");
 			return;
 		}
-		this.amountItems.push(amount);
+		this.amounts.push(amount);
 	}
 
 	var Amount = function(index) {
@@ -115,7 +115,7 @@ var cashup2 = (function() {
 
 	// Update Data Structure, when buttons are pressed
 	var fetchAllValues = function(index) {
-		var items = persons[index].amountItems;
+		var items = persons[index].amounts;
 		var len = items.length;
 		var amount;
 		var val;
@@ -128,7 +128,7 @@ var cashup2 = (function() {
 
 	// Render function
 	var render = function(index) {
-		var items = persons[index].amountItems;
+		var items = persons[index].amounts;
 		clearContainer(amountsContainers[index]);
 		for (var item in items) {
 			var amountItem = document.createElement("div");
