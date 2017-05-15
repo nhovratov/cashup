@@ -142,21 +142,21 @@ var cashup2 = (function() {
 		var items = persons[index].amounts;
 		clearContainer(amountsContainers[index]);
 		for (var item in items) {
-			var amountItem = document.createElement("div");
+			var amount = document.createElement("div");
 			var input = document.createElement("input");
 			var numeration = document.createElement("span");
 			var config = items[item].config;
 			numeration.innerHTML = Number(item) + 1;
-			amountItem.className = "amount_Item";
+			amount.className = "amount_Item";
 			for (var conf in config) {
 				input[conf] = config[conf];
 			}
 			if (items[item].value !== '') {
 				input.value = items[item].value;
 			}
-			amountItem.appendChild(numeration);
-			amountItem.appendChild(input);
-			amountsContainers[index].appendChild(amountItem);
+			amount.appendChild(numeration);
+			amount.appendChild(input);
+			amountsContainers[index].appendChild(amount);
 		}
 	}
 
