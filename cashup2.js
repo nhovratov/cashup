@@ -29,12 +29,12 @@ var cashup2 = (function() {
 	}
 
 	Cashup.prototype.cashup = function(onlyDue = false) {
-		if (cashup.persons.length !== 2) {
+		if (this.persons.length !== 2) {
 			console.error("Cashup only possible with 2 persons");
 			return false;
 		}
-		var p1 = cashup.persons[0];
-		var p2 = cashup.persons[1];
+		var p1 = this.persons[0];
+		var p2 = this.persons[1];
 		var sum1 = p1.getSum();
 		var sum2 = p2.getSum();
 		var diff = Math.abs(sum1 - sum2);

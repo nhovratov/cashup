@@ -26,6 +26,27 @@ describe("Cashup", function() {
       assert(cashup.persons.length === 2, "There are more than 2 persons in the array.");
     });
   });
+  describe("cashup", function() {
+    it("should only work, when 2 people are in the persons array", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      var res = cashup.cashup();
+      assert.isFalse(res, "function is running, although there arent 2 people.")
+    });
+    it("should return the right due.", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.addPerson("Lisa");
+      cashup.persons[0].addAmount(15);
+      cashup.persons[0].addAmount(25);
+      cashup.persons[0].addAmount(30);
+      cashup.persons[1].addAmount(5);
+      cashup.persons[1].addAmount(15);
+      cashup.persons[1].addAmount(20);
+      var res = cashup.cashup(true);
+      assert(res === 15, "Wrong value returned, expected 15");
+    });
+  });
 });
 
 describe("Person", function() {
