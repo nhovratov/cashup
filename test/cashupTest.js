@@ -74,7 +74,24 @@ describe("Person", function() {
       assert(person.amounts.length === 2, "No Amount removed from the list");
     });
   });
-  describe("getSum", function() {
+  describe("getSum 1", function() {
+    it("should return the sum of the Amounts array.", function() {
+      var person = new Person("Nikita");
+      person.addAmount(1.1);
+      var sum = person.getSum();
+      assert(sum === 1.1, "The sum is not 1.1");
+    });
+  });
+  describe("getSum 2", function() {
+    it("should return the sum of the Amounts array.", function() {
+      var person = new Person("Nikita");
+      person.addAmount(1);
+      person.addAmount(2);
+      var sum = person.getSum();
+      assert(sum === 3, "The sum is not 3.3");
+    });
+  });
+  describe("getSum 3", function() {
     it("should return the sum of the Amounts array.", function() {
       var person = new Person("Nikita");
       person.addAmount(1.1);

@@ -13,6 +13,7 @@ var cashup2 = (function() {
 	var amountsContainers = []; // Holds the amounts of the persons
 	var addAmountButtons = [];
 	var calcButton;
+	var outputDiv;
 
 	// Data Structures / Models
 	// The app containing the persons
@@ -69,6 +70,9 @@ var cashup2 = (function() {
 	}
 
 	Person.prototype.getSum = function() {
+		if (this.amounts.length === 1) {
+			return this.amounts[0].value;
+		}
 		var sum = this.amounts.reduce(function(res, element) {
 			res = res.value || res;
 			return Number(res) + Number(element.value);
@@ -118,30 +122,37 @@ var cashup2 = (function() {
 		// Initial app render
 		appContainer.appendChild(App());
 		// Add events
-		addAmountButtons[0].addEventListener("click", addAmountInput);
-		addAmountButtons[1].addEventListener("click", addAmountInput);
+		addAmountButtons[0].addEventListener("click", addAmountInputAction);
+		addAmountButtons[1].addEventListener("click", addAmountInputAction);
+		calcButton.addEventListener("click", cashupAction);
 	}
 
 	// Factory functions for static app structure
 	var App = function() {
+		var appWrapper = document.createElement("div");
 		var form = document.createElement("form");
 		var fieldset = document.createElement("fieldset");
 		var legend = document.createElement("legend");
+		outputDiv = document.createElement("div");
 		calcButton = document.createElement("button");
 
+		appWrapper.id = "cashup2_container";
 		form.id = "cashup_form";
 		legend.innerHTML = "Kassensturz";
-		calcButton.id = "calc_cashup";
+		calcButton.id = "cashup_calc";
 		calcButton.type = "submit";
 		calcButton.innerHTML = "Berechnen!";
+		outputDiv.id = "cashup_result";
 
 		fieldset.appendChild(legend);
 		fieldset.appendChild(PersonContainer(0));
 		fieldset.appendChild(PersonContainer(1));
 		fieldset.appendChild(calcButton);
 		form.appendChild(fieldset);
+		appWrapper.appendChild(form);
+		appWrapper.appendChild(outputDiv);
 
-		return form;
+		return appWrapper;
 	}
 
 	var PersonContainer = function(index) {
@@ -190,7 +201,7 @@ var cashup2 = (function() {
 			amountInput.value = value;
 		}
 
-		removeButton.addEventListener("click", removeAmountInput);
+		removeButton.addEventListener("click", removeAmountInputAction);
 		div.appendChild(numSpan);
 		div.appendChild(amountInput);
 		div.appendChild(removeButton);
@@ -198,7 +209,7 @@ var cashup2 = (function() {
 	}
 
 	// Event functions
-	var addAmountInput = function(e) {
+	var addAmountInputAction = function(e) {
 		e.preventDefault();
 		var index = parseInt(e.target.id) - 1;
 		fetchValues(index);
@@ -206,7 +217,7 @@ var cashup2 = (function() {
 		render(index);
 	}
 
-	var removeAmountInput = function(e) {
+	var removeAmountInputAction = function(e) {
 		e.preventDefault();
 		var target = e.target;
 		var child = target.parentElement;
@@ -216,6 +227,14 @@ var cashup2 = (function() {
 		fetchValues(personIndex);
 		cashup.persons[personIndex].removeAmount(index);
 		render(personIndex);
+	}
+
+	var cashupAction = function(e) {
+		e.preventDefault();
+		fetchValues(0);
+		fetchValues(1);
+		var result = cashup.cashup();
+		renderResult(result);
 	}
 
 	// Update Data Structure, when buttons are pressed
@@ -237,6 +256,13 @@ var cashup2 = (function() {
 		for (var i = 0; i < len; i++) {
 			amountsContainers[index].appendChild(AmountContainer(index, i, amounts[i].value));
 		}
+	}
+
+	var renderResult = function(result) {
+		var para = document.createElement("p");
+		para.innerHTML = result;
+		clearContainer(outputDiv);
+		outputDiv.appendChild(para);
 	}
 
 	// Helper functions
