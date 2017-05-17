@@ -42,15 +42,16 @@ var cashup2 = (function() {
 	}
 
 	// Amount
-	var Amount = function(value = '') {
-		this.value = value;
+	var Amount = function(value = null) {
+		this.setValue(value);
 	}
 
 	Amount.prototype.setValue = function(val) {
-		if (val !== '') {
+		if (val !== '' && val !== null) {
 			this.value = parseFloat(val);
+		} else {
+			this.value = null;
 		}
-		this.value = val;
 	}
 
 	// Holds the config for new input fields for amounts
@@ -201,14 +202,9 @@ var cashup2 = (function() {
 	var render = function(index) {
 		var amounts = persons[index].amounts;
 		var len = amounts.length;
-		var value;
 		clearContainer(amountsContainers[index]);
 		for (var i = 0; i < len; i++) {
-			value = null;
-			if (amounts[i].value !== '') {
-				value = amounts[i].value;
-			}
-			amountsContainers[index].appendChild(AmountContainer(index, i, value));
+			amountsContainers[index].appendChild(AmountContainer(index, i, amounts[i].value));
 		}
 	}
 
