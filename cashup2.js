@@ -39,7 +39,7 @@ var cashup2 = (function() {
 		var sum1 = p1.getSum();
 		var sum2 = p2.getSum();
 		var diff = Math.abs(sum1 - sum2);
-		var due = diff / 2;
+		var due = Number((diff / 2).toFixed(2));
 
 		if (onlyDue) {
 			return due;
