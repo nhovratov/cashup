@@ -29,6 +29,16 @@ describe("Person", function() {
       assert(person.amounts.length === 2, "No Amount removed from the list");
     });
   });
+  describe("getSum", function() {
+    it("should return the sum of the Amounts array.", function() {
+      var person = new Person("Nikita");
+      person.addAmount(new Amount(1.1));
+      person.addAmount(new Amount(2.2));
+      person.addAmount(new Amount(3.3));
+      var sum = person.getSum();
+      assert(sum === 6.6, "The sum is not 6.6");
+    });
+  });
 });
 
 describe("Amount", function() {

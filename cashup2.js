@@ -33,9 +33,17 @@ var cashup2 = (function() {
 		this.amounts.splice(index, 1);
 	}
 
+	Person.prototype.getSum = function() {
+		var sum = this.amounts.reduce(function(res, element) {
+			res = res.value || res;
+			return res + element.value;
+		});
+		return sum;
+	}
+
 	// Amount
-	var Amount = function() {
-		this.value = '';
+	var Amount = function(value = '') {
+		this.value = value;
 	}
 
 	Amount.prototype.setValue = function(val) {
@@ -154,7 +162,7 @@ var cashup2 = (function() {
 		div.appendChild(numSpan);
 		div.appendChild(amountInput);
 		div.appendChild(removeButton);
-		return div; 
+		return div;
 	}
 
 	// Event functions
