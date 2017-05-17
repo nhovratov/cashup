@@ -31,7 +31,7 @@ var cashup2 = (function() {
 	Cashup.prototype.cashup = function(onlyDue = false) {
 		if (cashup.persons.length !== 2) {
 			console.error("Cashup only possible with 2 persons");
-			return;
+			return false;
 		}
 		var p1 = cashup.persons[0];
 		var p2 = cashup.persons[1];
@@ -46,8 +46,10 @@ var cashup2 = (function() {
 
 		if (sum1 > sum2) {
 			return p2.name + " schuldet " + p1.name + " " + due + " Euro.";
-		} else {
+		} else if (sum2 > sum1) {
 			return p1.name + " schuldet " + p2.name + " " + due + " Euro.";
+		} else {
+			return "Die Beträge sind ausgeglichen";
 		}
 
 	}
@@ -69,11 +71,7 @@ var cashup2 = (function() {
 	Person.prototype.getSum = function() {
 		var sum = this.amounts.reduce(function(res, element) {
 			res = res.value || res;
-			if ([res, element.value].indexOf(null) !== -1) {
-				return res;
-			} else {
-				return res + element.value;
-			}
+			return Number(res) + Number(element.value);
 		});
 		return sum;
 	}
