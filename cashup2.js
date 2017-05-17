@@ -174,9 +174,9 @@ var cashup2 = (function() {
 		amountsContainers.push(amountsContainer);
 		addAmountButtons.push(addAmountButton);
 
+		personContainer.appendChild(addAmountButton);
 		personContainer.appendChild(headerName);
 		personContainer.appendChild(amountsContainer);
-		personContainer.appendChild(addAmountButton);
 
 		return personContainer;
 	}
