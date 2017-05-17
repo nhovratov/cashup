@@ -75,6 +75,13 @@ describe("Person", function() {
     });
   });
   describe("getSum 1", function() {
+    it("should return 0, as the array is empty", function() {
+      var person = new Person("Nikita");
+      var sum = person.getSum();
+      assert(sum === 0, "The sum is not 1.1");
+    });
+  });
+  describe("getSum 2", function() {
     it("should return the sum of the Amounts array.", function() {
       var person = new Person("Nikita");
       person.addAmount(1.1);
@@ -82,7 +89,7 @@ describe("Person", function() {
       assert(sum === 1.1, "The sum is not 1.1");
     });
   });
-  describe("getSum 2", function() {
+  describe("getSum 3", function() {
     it("should return the sum of the Amounts array.", function() {
       var person = new Person("Nikita");
       person.addAmount(1);
@@ -91,7 +98,7 @@ describe("Person", function() {
       assert(sum === 3, "The sum is not 3.3");
     });
   });
-  describe("getSum 3", function() {
+  describe("getSum 4", function() {
     it("should return the sum of the Amounts array.", function() {
       var person = new Person("Nikita");
       person.addAmount(1.1);

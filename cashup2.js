@@ -76,7 +76,7 @@ var cashup2 = (function() {
 		var sum = this.amounts.reduce(function(res, element) {
 			res = res.value || res;
 			return Number(res) + Number(element.value);
-		});
+		}, 0);
 		return sum;
 	}
 
