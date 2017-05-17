@@ -14,17 +14,16 @@ describe("Person", function() {
   describe("addAmount", function() {
     it("should add an Amount to the list", function() {
       var person = new Person("Nikita");
-      var amount = new Amount();
-      person.addAmount(amount);
+      person.addAmount();
       assert(person.amounts.length === 1, "No Amount added to the list");
     });
   });
   describe("removeAmount", function() {
     it("should remove an Amount from the list", function() {
       var person = new Person("Nikita");
-      person.addAmount(new Amount());
-      person.addAmount(new Amount());
-      person.addAmount(new Amount());
+      person.addAmount();
+      person.addAmount();
+      person.addAmount();
       person.removeAmount(1,1);
       assert(person.amounts.length === 2, "No Amount removed from the list");
     });
@@ -32,9 +31,9 @@ describe("Person", function() {
   describe("getSum", function() {
     it("should return the sum of the Amounts array.", function() {
       var person = new Person("Nikita");
-      person.addAmount(new Amount(1.1));
-      person.addAmount(new Amount(2.2));
-      person.addAmount(new Amount(3.3));
+      person.addAmount(1.1);
+      person.addAmount(2.2);
+      person.addAmount(3.3);
       var sum = person.getSum();
       assert(sum === 6.6, "The sum is not 6.6");
     });

@@ -7,26 +7,33 @@ github.com/nhovratov
 */
 
 var cashup2 = (function() {
-	// Contains the person structures
-	var persons = [];
+	// The global app
+	var cashup = new Cashup();
 	// Dom objects
 	var amountsContainers = []; // Holds the amounts of the persons
 	var addAmountButtons = [];
 	var calcButton;
 
 	// Data Structures / Models
+	// The app containing the persons
+	function Cashup() {
+		this.persons = [];
+	}
+
+	Cashup.prototype.addPerson = function(name) {
+		if (this.persons.length === 2) {
+			console.error("Only 2 persons are allowed!");
+		}
+		this.persons.push(new Person(name));
+	}
 	// Person
-	var Person = function(name) {
+	function Person(name) {
 		this.name = name;
 		this.amounts = [];
 	}
 
-	Person.prototype.addAmount = function(amount) {
-		if (Object.getPrototypeOf(amount).constructor !== Amount) {
-			console.error("Amount must be of type amount");
-			return;
-		}
-		this.amounts.push(amount);
+	Person.prototype.addAmount = function(amount = null) {
+		this.amounts.push(new Amount(amount));
 	}
 
 	Person.prototype.removeAmount = function(index) {
@@ -42,7 +49,7 @@ var cashup2 = (function() {
 	}
 
 	// Amount
-	var Amount = function(value = null) {
+	function Amount(value = null) {
 		this.setValue(value);
 	}
 
@@ -66,12 +73,9 @@ var cashup2 = (function() {
 		step: "0.01",
 	}
 
-	AmountInput.prototype.getConfig = function() {
-		return this.config;
-	}
-
 	// Initialise app with passed config
 	var init = function(config) {
+		cashup = new Cashup();
 		var appContainer = document.getElementById(config.id);
 		if (!appContainer) {
 			console.warn("Can't find the id in config.id");
@@ -82,8 +86,8 @@ var cashup2 = (function() {
 			return;
 		}
 		// Add persons
-		persons.push((new Person(config.names[0])));
-		persons.push((new Person(config.names[1])));
+		cashup.addPerson(config.names[0]);
+		cashup.addPerson(config.names[1]);
 		// Initial app render
 		appContainer.appendChild(App());
 		// Add events
@@ -114,7 +118,7 @@ var cashup2 = (function() {
 	}
 
 	var PersonContainer = function(index) {
-		var name = persons[index].name;
+		var name = cashup.persons[index].name;
 		var num = index + 1;
 		var personContainer = document.createElement("div");
 		var headerName = document.createElement("p");
@@ -144,7 +148,7 @@ var cashup2 = (function() {
 		var amountInput = document.createElement("input");
 		var numSpan = document.createElement("span");
 		var removeButton = document.createElement("button");
-		var config = (new AmountInput(index).getConfig());
+		var config = (new AmountInput(index).config);
 
 		div.className = "amount";
 		numSpan.innerHTML = Number(num) + 1;
@@ -171,7 +175,7 @@ var cashup2 = (function() {
 		e.preventDefault();
 		var index = parseInt(e.target.id) - 1;
 		fetchValues(index);
-		persons[index].addAmount((new Amount()));
+		cashup.persons[index].addAmount();
 		render(index);
 	}
 
@@ -183,13 +187,13 @@ var cashup2 = (function() {
 		var personIndex = parseInt(parent.id) - 1;
 		var index = Array.prototype.indexOf.call(parent.children, child);
 		fetchValues(personIndex);
-		persons[personIndex].removeAmount(index);
+		cashup.persons[personIndex].removeAmount(index);
 		render(personIndex);
 	}
 
 	// Update Data Structure, when buttons are pressed
 	var fetchValues = function(index) {
-		var amounts = persons[index].amounts;
+		var amounts = cashup.persons[index].amounts;
 		var len = amounts.length;
 		for (var i = 0, amount, val; i < len; i++) {
 			amount = amountsContainers[index]["children"][i];
@@ -200,7 +204,7 @@ var cashup2 = (function() {
 
 	// Render Objects to html
 	var render = function(index) {
-		var amounts = persons[index].amounts;
+		var amounts = cashup.persons[index].amounts;
 		var len = amounts.length;
 		clearContainer(amountsContainers[index]);
 		for (var i = 0; i < len; i++) {
