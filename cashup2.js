@@ -23,6 +23,7 @@ var cashup2 = (function() {
 	Cashup.prototype.addPerson = function(name) {
 		if (this.persons.length === 2) {
 			console.error("Only 2 persons are allowed!");
+			return;
 		}
 		this.persons.push(new Person(name));
 	}
@@ -75,7 +76,6 @@ var cashup2 = (function() {
 
 	// Initialise app with passed config
 	var init = function(config) {
-		cashup = new Cashup();
 		var appContainer = document.getElementById(config.id);
 		if (!appContainer) {
 			console.warn("Can't find the id in config.id");
@@ -221,7 +221,9 @@ var cashup2 = (function() {
 
 	return {
 		init: init,
-		api: {
+		api: cashup,
+		constructors: {
+			Cashup: Cashup,
 			Person: Person,
 			Amount: Amount,
 		},

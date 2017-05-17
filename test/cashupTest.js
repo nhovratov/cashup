@@ -1,7 +1,32 @@
 var assert = chai.assert;
-var api = cashup2.api;
+var api = cashup2.constructors;
+var Cashup = api.Cashup;
 var Person = api.Person;
 var Amount = api.Amount;
+
+describe("Cashup", function() {
+  describe("constructor", function() {
+    it("should have the constructor Cashup", function() {
+      var cashup = new Cashup();
+      var proto = Object.getPrototypeOf(cashup);
+      assert(proto.constructor === Cashup, "Cashup is not the constructor");
+    });
+  });
+  describe("addPerson", function() {
+    it("should add a Person to the persons array", function() {
+        var cashup = new Cashup();
+        cashup.addPerson("Nikita");
+        assert(cashup.persons.length === 1, "No person was added.");
+    });
+    it("shouldn't add more than 2 Persons", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.addPerson("Nikita");
+      cashup.addPerson("Nikita");
+      assert(cashup.persons.length === 2, "There are more than 2 persons in the array.");
+    });
+  });
+});
 
 describe("Person", function() {
   describe("constructor", function() {
