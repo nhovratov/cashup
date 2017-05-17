@@ -27,6 +27,31 @@ var cashup2 = (function() {
 		}
 		this.persons.push(new Person(name));
 	}
+
+	Cashup.prototype.cashup = function(onlyDue = false) {
+		if (cashup.persons.length !== 2) {
+			console.error("Cashup only possible with 2 persons");
+			return;
+		}
+		var p1 = cashup.persons[0];
+		var p2 = cashup.persons[1];
+		var sum1 = p1.getSum();
+		var sum2 = p2.getSum();
+		var diff = Math.abs(sum1 - sum2);
+		var due = diff / 2;
+
+		if (onlyDue) {
+			return due;
+		}
+
+		if (sum1 > sum2) {
+			return p2.name + " schuldet " + p1.name + " " + due + " Euro.";
+		} else {
+			return p1.name + " schuldet " + p2.name + " " + due + " Euro.";
+		}
+
+	}
+
 	// Person
 	function Person(name) {
 		this.name = name;
