@@ -69,7 +69,11 @@ var cashup2 = (function() {
 	Person.prototype.getSum = function() {
 		var sum = this.amounts.reduce(function(res, element) {
 			res = res.value || res;
-			return res + element.value;
+			if ([res, element.value].indexOf(null) !== -1) {
+				return res;
+			} else {
+				return res + element.value;
+			}
 		});
 		return sum;
 	}
