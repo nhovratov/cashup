@@ -11,7 +11,7 @@
               <div class="amount">
                 <span>1</span>
                 <input class="amount_input" required="" step="0.01" name="2_amount[]" type="number" value="{{value}}"/>
-                <button>X</button>
+                <button class="amount_remove">X</button>
               </div>
             {{/amounts}}
             </div>

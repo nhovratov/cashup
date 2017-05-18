@@ -16,6 +16,7 @@ var cashup2 = (function() {
 	var appContainer;
 	var amountsContainers; // Holds the amounts of the persons
 	var addAmountButtons;
+	var removeAmountButtons;
 	var calcButton;
 	var outputDiv;
 
@@ -122,12 +123,16 @@ var cashup2 = (function() {
 		addAmountButtons = appContainer.querySelectorAll(".add_button");
 		calcButton = appContainer.querySelector("#cashup_calc");
 		amountsContainers = appContainer.querySelectorAll(".amounts_container");
+		removeAmountButtons = appContainer.querySelectorAll(".amount_remove");
 	}
 
 	var addEvents = function() {
 		addAmountButtons[0].addEventListener("click", addAmountInputAction);
 		addAmountButtons[1].addEventListener("click", addAmountInputAction);
 		calcButton.addEventListener("click", cashupAction);
+		Array.prototype.forEach.call(removeAmountButtons, function(el) {
+			el.addEventListener("click", removeAmountInputAction);
+		});
 	}
 
 	var getTemplate = function(callback) {
@@ -159,9 +164,9 @@ var cashup2 = (function() {
 		var parent = child.parentElement;
 		var personIndex = parseInt(parent.id) - 1;
 		var index = Array.prototype.indexOf.call(parent.children, child);
-		fetchValues(personIndex);
+		fetchValues();
 		cashup.persons[personIndex].removeAmount(index);
-		render(personIndex);
+		render();
 	}
 
 	var cashupAction = function(e) {
