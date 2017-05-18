@@ -20,5 +20,7 @@
         <button id="cashup_calc" type="submit">Berechnen!</button>
       </fieldset>
   </form>
-  <div id="cashup_result"></div>
+  <div id="cashup_result">
+    {{result}}
+  </div>
 </div>

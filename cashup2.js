@@ -24,6 +24,7 @@ var cashup2 = (function() {
 	// The app containing the persons
 	function Cashup() {
 		this.persons = [];
+		this.result = '';
 	}
 
 	Cashup.prototype.addPerson = function(name) {
@@ -49,15 +50,16 @@ var cashup2 = (function() {
 		var due = Number((diff / 2).toFixed(2));
 
 		if (onlyDue) {
-			return due;
+			this.result = due;
+			return;
 		}
 
 		if (sum1 > sum2) {
-			return p2.name + " schuldet " + p1.name + " " + due + " Euro.";
+			this.result =  p2.name + " schuldet " + p1.name + " " + due + " Euro.";
 		} else if (sum2 > sum1) {
-			return p1.name + " schuldet " + p2.name + " " + due + " Euro.";
+			this.result =  p1.name + " schuldet " + p2.name + " " + due + " Euro.";
 		} else {
-			return "Die Beträge sind ausgeglichen";
+			this.result =  "Die Beträge sind ausgeglichen.";
 		}
 
 	}
@@ -172,8 +174,8 @@ var cashup2 = (function() {
 	var cashupAction = function(e) {
 		e.preventDefault();
 		fetchValues();
-		var result = cashup.cashup();
-		renderResult(result);
+		cashup.cashup();
+		render();
 	}
 
 	// Update Data Structure, when buttons are pressed
@@ -195,13 +197,6 @@ var cashup2 = (function() {
 		appContainer.innerHTML = view;
 		cacheDOM();
 		addEvents();
-	}
-
-	var renderResult = function(result) {
-		var para = document.createElement("p");
-		para.innerHTML = result;
-		clearContainer(outputDiv);
-		outputDiv.appendChild(para);
 	}
 
 	return {

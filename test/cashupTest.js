@@ -43,8 +43,9 @@ describe("Cashup", function() {
       cashup.persons[1].addAmount(5);
       cashup.persons[1].addAmount(15);
       cashup.persons[1].addAmount(20.5);
-      var res = cashup.cashup(true);
-      assert(res === 14.75, "Wrong value returned, expected 15");
+      cashup.cashup(true);
+      console.log(cashup.result);
+      assert(cashup.result === 14.75, "Wrong value returned, expected 15");
     });
   });
 });
