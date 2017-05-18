@@ -7,12 +7,12 @@
             <div class="row">
             {{#persons}}
               <div class="col-md-6">
-                <div id="{{index}}_person" class="amounts_wrapper">
-                  <button id="{{index}}_add_button" class="add_button btn btn-lg btn-success">
+                <div id="{{personId}}_person" class="amounts_wrapper">
+                  <button id="{{personId}}_add_button" class="add_button btn btn-lg btn-success">
                     <span class="glyphicon glyphicon-plus"></span>
                   </button>
                   <h2>{{name}}</h2>
-                  <div id="{{index}}_amounts" class="amounts_container">
+                  <div id="{{personId}}_amounts" class="amounts_container">
                     {{#amounts}}
                     <div class="amount form-group">
                       <div class="row">
@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-xs-10">
                           <input class="amount_input form-control" required="" step="0.01"
-                           name="2_amount[]" type="number" value="{{value}}"/>
+                           name="{{personId}}_amount[]" type="number" value="{{value}}"/>
                         </div>
                         <div class="col-xs-1">
                           <button class="amount_remove close"><span>&times;</span></button>

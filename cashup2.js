@@ -28,7 +28,7 @@ var cashup2 = (function() {
 			return;
 		}
 		index = this.persons.push(new Person(name));
-		this.persons[this.persons.length - 1].index = index;
+		this.persons[this.persons.length - 1].personId = index;
 	}
 
 	Cashup.prototype.cashup = function(onlyDue = false) {
@@ -62,7 +62,7 @@ var cashup2 = (function() {
 	function Person(name) {
 		this.name = name;
 		this.amounts = [];
-		this.index;
+		this.personId;
 	}
 
 	Person.prototype.addAmount = function(amount = null) {

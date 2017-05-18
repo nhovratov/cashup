@@ -110,12 +110,12 @@ describe("Person", function() {
       assert(sum === "6.60", "The sum is not 6.6");
     });
   });
-  describe("getIndex", function() {
+  describe("getPersonId", function() {
     it("should return the index of the person", function() {
       var cashup = new Cashup();
       cashup.addPerson("Nikita");
       cashup.addPerson("Lisa");
-      var index = cashup.persons[1].index;
+      var index = cashup.persons[1].personId;
       assert(index === 2, "The index of the second person is not 2");
     });
   });
