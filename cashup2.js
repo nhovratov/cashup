@@ -100,18 +100,6 @@ var cashup2 = (function() {
 		}
 	}
 
-	// Holds the config for new input fields for amounts
-	var AmountInput = function(index) {
-		this.config.name = (index + 1) + "_amount[]";
-	}
-
-	AmountInput.prototype.config = {
-		className: "amount_input",
-		required: "required",
-		type: "number",
-		step: "0.01",
-	}
-
 	// Initialise app with passed config
 	var init = function(config) {
 		appContainer = document.getElementById(config.id);
