@@ -130,6 +130,7 @@ var cashup2 = (function() {
 		dom.amountsContainers = dom.appContainer.querySelectorAll(".amounts_container");
 		dom.removeAmountButtons = dom.appContainer.querySelectorAll(".amount_remove");
 		dom.cashupResult = dom.appContainer.querySelector("#cashup_result");
+		dom.inputFields = dom.appContainer.querySelectorAll(".amount_input");
 	}
 
 	var addEvents = function() {
@@ -138,6 +139,9 @@ var cashup2 = (function() {
 		dom.calcButton.addEventListener("click", cashupAction);
 		Array.prototype.forEach.call(dom.removeAmountButtons, function(el) {
 			el.addEventListener("click", removeAmountInputAction);
+		});
+		Array.prototype.forEach.call(dom.inputFields, function(el) {
+			el.addEventListener("keypress", addAmountInputAction);
 		});
 	}
 
@@ -156,11 +160,18 @@ var cashup2 = (function() {
 
 	// Event functions
 	var addAmountInputAction = function(e) {
+		if (e.constructor.name === "KeyboardEvent") {
+			if (e.keyCode !== 13) {
+				return;
+			}
+		}
 		e.preventDefault();
-		var index = parseInt(e.target.id) - 1;
+		var parent = findParentByClassName(e.target, "amounts_wrapper");
+		var index = parseInt(parent.id) - 1;
 		fetchValues();
 		cashup.persons[index].addAmount();
 		render();
+		focusLastAddedInput(index);
 	}
 
 	var removeAmountInputAction = function(e) {
@@ -181,6 +192,14 @@ var cashup2 = (function() {
 		cashup.cashup();
 		render();
 		dom.cashupResult.classList.remove("hidden");
+	}
+
+	var focusLastAddedInput = function(index) {
+		var amountContainer = dom.amountsContainers[index];
+		var amounts = cashup.persons[index].amounts;
+		var lastIndex = amounts.length - 1;
+		var lastInput = amountContainer.children[lastIndex].querySelector(".amount_input");
+		lastInput.focus();
 	}
 
 	var findParentByClassName = function(element, className) {

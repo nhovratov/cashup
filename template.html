@@ -7,7 +7,7 @@
             <div class="row">
             {{#persons}}
               <div class="col-md-6">
-                <div class="amounts_wrapper">
+                <div id="{{index}}_person" class="amounts_wrapper">
                   <button id="{{index}}_add_button" class="add_button btn btn-lg btn-success">
                     <span class="glyphicon glyphicon-plus"></span>
                   </button>
@@ -16,14 +16,14 @@
                     {{#amounts}}
                     <div class="amount form-group">
                       <div class="row">
-                        <div class="col-md-1">
+                        <div class="col-xs-1">
                           <span class="h2">{{index}}</span>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-xs-10">
                           <input class="amount_input form-control" required="" step="0.01"
                            name="2_amount[]" type="number" value="{{value}}"/>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-xs-1">
                           <button class="amount_remove close"><span>&times;</span></button>
                         </div>
                       </div>
