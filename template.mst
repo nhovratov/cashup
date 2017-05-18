@@ -9,7 +9,7 @@
             <div id="{{index}}_amounts" class="amounts_container">
             {{#amounts}}
               <div class="amount">
-                <span>1</span>
+                <span>{{index}}</span>
                 <input class="amount_input" required="" step="0.01" name="2_amount[]" type="number" value="{{value}}"/>
                 <button class="amount_remove">X</button>
               </div>

@@ -72,7 +72,8 @@ var cashup2 = (function() {
 	}
 
 	Person.prototype.addAmount = function(amount = null) {
-		this.amounts.push(new Amount(amount));
+		var index = this.amounts.push(new Amount(amount));
+		this.amounts[this.amounts.length - 1].index = index;
 	}
 
 	Person.prototype.removeAmount = function(index) {
@@ -90,9 +91,16 @@ var cashup2 = (function() {
 		return sum;
 	}
 
+	Person.prototype.renumberAmounts = function() {
+		this.amounts.forEach(function(el, index){
+			el.index = index + 1;
+		});
+	}
+
 	// Amount
 	function Amount(value = null) {
 		this.setValue(value);
+		this.index;
 	}
 
 	Amount.prototype.setValue = function(val) {
@@ -168,6 +176,7 @@ var cashup2 = (function() {
 		var index = Array.prototype.indexOf.call(parent.children, child);
 		fetchValues();
 		cashup.persons[personIndex].removeAmount(index);
+		cashup.persons[personIndex].renumberAmounts();
 		render();
 	}
 
