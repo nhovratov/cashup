@@ -44,10 +44,10 @@ var cashup2 = (function() {
 		}
 		var p1 = this.persons[0];
 		var p2 = this.persons[1];
-		var sum1 = p1.getSum();
-		var sum2 = p2.getSum();
+		var sum1 = Number(p1.getSum());
+		var sum2 = Number(p2.getSum());
 		var diff = Math.abs(sum1 - sum2);
-		var due = Number((diff / 2).toFixed(2));
+		var due = (diff / 2).toFixed(2);
 
 		if (onlyDue) {
 			this.result = due;
@@ -81,14 +81,11 @@ var cashup2 = (function() {
 	}
 
 	Person.prototype.getSum = function() {
-		if (this.amounts.length === 1) {
-			return this.amounts[0].value;
-		}
-		var sum = this.amounts.reduce(function(res, element) {
-			res = res.value || res;
-			return Number(res) + Number(element.value);
-		}, 0);
-		return sum;
+		var sum = 0.00;
+		this.amounts.forEach(function(el) {
+			sum += el.getValue();
+		});
+		return sum.toFixed(2);
 	}
 
 	Person.prototype.renumberAmounts = function() {
@@ -109,6 +106,10 @@ var cashup2 = (function() {
 		} else {
 			this.value = null;
 		}
+	}
+
+	Amount.prototype.getValue = function() {
+		return this.value || 0;
 	}
 
 	// Initialise app with passed config

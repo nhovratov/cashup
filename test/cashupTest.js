@@ -44,8 +44,7 @@ describe("Cashup", function() {
       cashup.persons[1].addAmount(15);
       cashup.persons[1].addAmount(20.5);
       cashup.cashup(true);
-      console.log(cashup.result);
-      assert(cashup.result === 14.75, "Wrong value returned, expected 15");
+      assert(cashup.result === "14.75", "Wrong value returned, expected 15");
     });
   });
 });
@@ -71,7 +70,7 @@ describe("Person", function() {
       person.addAmount();
       person.addAmount();
       person.addAmount();
-      person.removeAmount(1,1);
+      person.removeAmount(1);
       assert(person.amounts.length === 2, "No Amount removed from the list");
     });
   });
@@ -79,15 +78,16 @@ describe("Person", function() {
     it("should return 0, as the array is empty", function() {
       var person = new Person("Nikita");
       var sum = person.getSum();
-      assert(sum === 0, "The sum is not 1.1");
+      assert(sum === "0.00", "The sum is not 0.00");
     });
   });
   describe("getSum 2", function() {
     it("should return the sum of the Amounts array.", function() {
       var person = new Person("Nikita");
-      person.addAmount(1.1);
+      person.addAmount(1.10);
       var sum = person.getSum();
-      assert(sum === 1.1, "The sum is not 1.1");
+
+      assert(sum === "1.10", "The sum is not 1.1");
     });
   });
   describe("getSum 3", function() {
@@ -96,7 +96,8 @@ describe("Person", function() {
       person.addAmount(1);
       person.addAmount(2);
       var sum = person.getSum();
-      assert(sum === 3, "The sum is not 3.3");
+
+      assert(sum === "3.00", "The sum is not 3.3");
     });
   });
   describe("getSum 4", function() {
@@ -106,7 +107,7 @@ describe("Person", function() {
       person.addAmount(2.2);
       person.addAmount(3.3);
       var sum = person.getSum();
-      assert(sum === 6.6, "The sum is not 6.6");
+      assert(sum === "6.60", "The sum is not 6.6");
     });
   });
   describe("getIndex", function() {

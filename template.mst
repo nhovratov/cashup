@@ -15,6 +15,7 @@
               </div>
             {{/amounts}}
             </div>
+            <p class="amount_sum">Summe: {{getSum}}&euro;</p>
           </div>
         {{/persons}}
         <button id="cashup_calc" type="submit">Berechnen!</button>
