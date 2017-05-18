@@ -111,15 +111,11 @@ var cashup2 = (function() {
 			console.warn("Please provide 2 names in config.names");
 			return;
 		}
-
 		// Add persons
 		cashup.addPerson(config.names[0]);
 		cashup.addPerson(config.names[1]);
 		// Gets the template and renders the view
-		getTemplate(function() {
-			cacheDOM();
-			addEvents();
-		});
+		getTemplate(render);
 	}
 
 	var cacheDOM = function() {
@@ -140,8 +136,6 @@ var cashup2 = (function() {
 		  if (this.readyState == 4 && this.status == 200) {
 		    template = this.responseText;
 				Mustache.parse(template);
-				view = Mustache.render(template, cashup);
-				appContainer.innerHTML = view;
 				callback();
 		  }
 		};
