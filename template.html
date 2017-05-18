@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+        <form id="cashup_form">
+          <fieldset>
+            <legend class="h1">Kassensturz</legend>
+            <div class="row">
+            {{#persons}}
+              <div class="col-md-6">
+                <div class="amounts_wrapper">
+                  <button id="{{index}}_add_button" class="add_button btn btn-lg btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+                  <h2>{{name}}</h2>
+                  <div id="{{index}}_amounts" class="amounts_container">
+                    {{#amounts}}
+                    <div class="amount form-group">
+                      <div class="row">
+                        <div class="col-md-1">
+                          <span class="h2">{{index}}</span>
+                        </div>
+                        <div class="col-md-10">
+                          <input class="amount_input form-control" required="" step="0.01"
+                           name="2_amount[]" type="number" value="{{value}}"/>
+                        </div>
+                        <div class="col-md-1">
+                          <button class="amount_remove close"><span>&times;</span></button>
+                        </div>
+                      </div>
+                    </div>
+                  {{/amounts}}
+                  </div>
+                  <p class="amount_sum">Summe: <strong>{{getSum}}&#8364;</strong></p>
+                </div>
+              </div>
+            {{/persons}}
+            </div>
+            <button id="cashup_calc" class="btn btn-lg btn-primary pull-right" type="submit">
+              Berechnen!
+            </button>
+          </fieldset>
+        </form>
+        <div id="cashup_result" class="jumbotron text-center hidden">
+          <p>{{result}}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -129,6 +129,7 @@ var cashup2 = (function() {
 		dom.calcButton = dom.appContainer.querySelector("#cashup_calc");
 		dom.amountsContainers = dom.appContainer.querySelectorAll(".amounts_container");
 		dom.removeAmountButtons = dom.appContainer.querySelectorAll(".amount_remove");
+		dom.cashupResult = dom.appContainer.querySelector("#cashup_result");
 	}
 
 	var addEvents = function() {
@@ -164,8 +165,8 @@ var cashup2 = (function() {
 
 	var removeAmountInputAction = function(e) {
 		e.preventDefault();
-		var child = e.target.parentElement;
-		var parent = child.parentElement;
+		var child = findParentByClassName(e.target, "amount");
+		var parent = findParentByClassName(e.target, "amounts_container");
 		var personIndex = parseInt(parent.id) - 1;
 		var index = Array.prototype.indexOf.call(parent.children, child);
 		fetchValues();
@@ -179,6 +180,14 @@ var cashup2 = (function() {
 		fetchValues();
 		cashup.cashup();
 		render();
+		dom.cashupResult.classList.remove("hidden");
+	}
+
+	var findParentByClassName = function(element, className) {
+		while(!element.classList.contains(className)) {
+			element = element.parentElement;
+		}
+		return element;
 	}
 
 	// Update Data Structure, when buttons are pressed

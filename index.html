@@ -4,16 +4,17 @@
 	<meta charset="utf-8">
 	<meta lang="de">
 	<title>Kassensturz</title>
-	<script type="text/javascript" src="node_modules/mustache/mustache.min.js"></script>
-	<script type="text/javascript" src="cashup2.js"></script>
+	<script src="node_modules/mustache/mustache.min.js"></script>
+	<script src="cashup2.js"></script>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
 	<div id="cashup"></div>
-	<script type="text/javascript">
+	<script>
 		cashup2.init({
 			id: "cashup",
 			names: ["Lisa", "Nikita"],
-			templatePath: "template.mst",
+			templatePath: "template.html",
 		});
 	</script>
 </body>
