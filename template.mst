@@ -1,0 +1,18 @@
+<div id="cashup2_container">
+  <form id="cashup_form">
+    <fieldset>
+      <legend>Kassensturz</legend>
+        {{#persons}}
+          <div class="amounts_wrapper">
+            <button id="{{index}}_add_button" class="add_button">+</button>
+            <p>{{name}}</p>
+            <div id="{{index}}_amounts" class="amounts_container">
+              
+            </div>
+          </div>
+        {{/persons}}
+        <button id="cashup_calc" type="submit">Berechnen!</button>
+      </fieldset>
+  </form>
+  <div id="cashup_result"></div>
+</div>

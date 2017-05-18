@@ -9,9 +9,13 @@ github.com/nhovratov
 var cashup2 = (function() {
 	// The global app
 	var cashup = new Cashup();
+	// Mustache template
+	var template;
+	var view;
 	// Dom objects
-	var amountsContainers = []; // Holds the amounts of the persons
-	var addAmountButtons = [];
+	var appContainer;
+	var amountsContainers; // Holds the amounts of the persons
+	var addAmountButtons;
 	var calcButton;
 	var outputDiv;
 
@@ -22,11 +26,13 @@ var cashup2 = (function() {
 	}
 
 	Cashup.prototype.addPerson = function(name) {
+		var index;
 		if (this.persons.length === 2) {
 			console.error("Only 2 persons are allowed!");
 			return;
 		}
-		this.persons.push(new Person(name));
+		index = this.persons.push(new Person(name));
+		this.persons[this.persons.length - 1].index = index;
 	}
 
 	Cashup.prototype.cashup = function(onlyDue = false) {
@@ -59,6 +65,7 @@ var cashup2 = (function() {
 	function Person(name) {
 		this.name = name;
 		this.amounts = [];
+		this.index;
 	}
 
 	Person.prototype.addAmount = function(amount = null) {
@@ -107,7 +114,7 @@ var cashup2 = (function() {
 
 	// Initialise app with passed config
 	var init = function(config) {
-		var appContainer = document.getElementById(config.id);
+		appContainer = document.getElementById(config.id);
 		if (!appContainer) {
 			console.warn("Can't find the id in config.id");
 			return;
@@ -116,96 +123,36 @@ var cashup2 = (function() {
 			console.warn("Please provide 2 names in config.names");
 			return;
 		}
+
 		// Add persons
 		cashup.addPerson(config.names[0]);
 		cashup.addPerson(config.names[1]);
-		// Initial app render
-		appContainer.appendChild(App());
-		// Add events
-		addAmountButtons[0].addEventListener("click", addAmountInputAction);
-		addAmountButtons[1].addEventListener("click", addAmountInputAction);
-		calcButton.addEventListener("click", cashupAction);
+		// Gets the template and renders the view
+		getTemplate(function() {
+			// Cache Dom
+			addAmountButtons = appContainer.querySelectorAll(".add_button");
+			calcButton = appContainer.querySelector("#cashup_calc");
+			amountsContainers = appContainer.querySelectorAll(".amounts_container");
+			// Add events
+			addAmountButtons[0].addEventListener("click", addAmountInputAction);
+			addAmountButtons[1].addEventListener("click", addAmountInputAction);
+			calcButton.addEventListener("click", cashupAction);
+		});
 	}
 
-	// Factory functions for static app structure
-	var App = function() {
-		var appWrapper = document.createElement("div");
-		var form = document.createElement("form");
-		var fieldset = document.createElement("fieldset");
-		var legend = document.createElement("legend");
-		outputDiv = document.createElement("div");
-		calcButton = document.createElement("button");
-
-		appWrapper.id = "cashup2_container";
-		form.id = "cashup_form";
-		legend.innerHTML = "Kassensturz";
-		calcButton.id = "cashup_calc";
-		calcButton.type = "submit";
-		calcButton.innerHTML = "Berechnen!";
-		outputDiv.id = "cashup_result";
-
-		fieldset.appendChild(legend);
-		fieldset.appendChild(PersonContainer(0));
-		fieldset.appendChild(PersonContainer(1));
-		fieldset.appendChild(calcButton);
-		form.appendChild(fieldset);
-		appWrapper.appendChild(form);
-		appWrapper.appendChild(outputDiv);
-
-		return appWrapper;
-	}
-
-	var PersonContainer = function(index) {
-		var name = cashup.persons[index].name;
-		var num = index + 1;
-		var personContainer = document.createElement("div");
-		var headerName = document.createElement("p");
-		var amountsContainer = document.createElement("div");
-		var addAmountButton = document.createElement("button");
-
-		personContainer.className = "amounts_wrapper";
-		headerName.innerHTML = name;
-		amountsContainer.id = num + "_amounts";
-		amountsContainer.className = "amounts_container";
-		addAmountButton.id = num + "_add_button";
-		addAmountButton.className = "add_button";
-		addAmountButton.innerHTML = "+";
-
-		amountsContainers.push(amountsContainer);
-		addAmountButtons.push(addAmountButton);
-
-		personContainer.appendChild(addAmountButton);
-		personContainer.appendChild(headerName);
-		personContainer.appendChild(amountsContainer);
-
-		return personContainer;
-	}
-
-	var AmountContainer = function(index, num, value) {
-		var div = document.createElement("div");
-		var amountInput = document.createElement("input");
-		var numSpan = document.createElement("span");
-		var removeButton = document.createElement("button");
-		var config = (new AmountInput(index).config);
-
-		div.className = "amount";
-		numSpan.innerHTML = Number(num) + 1;
-		removeButton.innerHTML = "X";
-
-		// Set the default attributes for input field
-		for (var conf in config) {
-			amountInput[conf] = config[conf];
-		}
-
-		if (value !== null) {
-			amountInput.value = value;
-		}
-
-		removeButton.addEventListener("click", removeAmountInputAction);
-		div.appendChild(numSpan);
-		div.appendChild(amountInput);
-		div.appendChild(removeButton);
-		return div;
+	var getTemplate = function(callback) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
+		    template = this.responseText;
+				Mustache.parse(template);
+				view = Mustache.render(template, cashup);
+				appContainer.innerHTML = view;
+				callback();
+		  }
+		};
+		xhttp.open("GET", "template.mst", true);
+		xhttp.send();
 	}
 
 	// Event functions
@@ -214,7 +161,7 @@ var cashup2 = (function() {
 		var index = parseInt(e.target.id) - 1;
 		fetchValues(index);
 		cashup.persons[index].addAmount();
-		render(index);
+		render();
 	}
 
 	var removeAmountInputAction = function(e) {
@@ -243,19 +190,14 @@ var cashup2 = (function() {
 		var len = amounts.length;
 		for (var i = 0, amount, val; i < len; i++) {
 			amount = amountsContainers[index]["children"][i];
-			val = amount.querySelector("." + AmountInput.prototype.config.className).value;
+			val = amount.querySelector(".amount_input").value;
 			amounts[i].setValue(val);
 		}
 	}
 
 	// Render Objects to html
-	var render = function(index) {
-		var amounts = cashup.persons[index].amounts;
-		var len = amounts.length;
-		clearContainer(amountsContainers[index]);
-		for (var i = 0; i < len; i++) {
-			amountsContainers[index].appendChild(AmountContainer(index, i, amounts[i].value));
-		}
+	var render = function() {
+		Mustache.render(template, cashup);
 	}
 
 	var renderResult = function(result) {
@@ -263,13 +205,6 @@ var cashup2 = (function() {
 		para.innerHTML = result;
 		clearContainer(outputDiv);
 		outputDiv.appendChild(para);
-	}
-
-	// Helper functions
-	var clearContainer = function(container) {
-		while (container.firstChild) {
-			container.removeChild(container.firstChild);
-		}
 	}
 
 	return {

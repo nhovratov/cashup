@@ -4,15 +4,21 @@
 	<meta charset="utf-8">
 	<meta lang="de">
 	<title>Kassensturz</title>
+	<script type="text/javascript" src="node_modules/mustache/mustache.min.js"></script>
+	<script type="text/javascript" src="cashup2.js"></script>
 </head>
 <body>
 	<div id="cashup"></div>
-	<script type="text/javascript" src="cashup2.js"></script>
+
 	<script type="text/javascript">
 		cashup2.init({
 			id: "cashup",
 			names: ["Lisa", "Nikita"],
 		});
+
+		// var output = Mustache.render(document.getElementById("template").innerHTML, cashup2.api);
+		// console.log(output);
+
 	</script>
 </body>
 </html>

@@ -108,6 +108,15 @@ describe("Person", function() {
       assert(sum === 6.6, "The sum is not 6.6");
     });
   });
+  describe("getIndex", function() {
+    it("should return the index of the person", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.addPerson("Lisa");
+      var index = cashup.persons[1].index;
+      assert(index === 2, "The index of the second person is not 2");
+    });
+  });
 });
 
 describe("Amount", function() {
