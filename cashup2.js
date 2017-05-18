@@ -118,7 +118,7 @@ var cashup2 = (function() {
 		cashup.addPerson(config.names[0]);
 		cashup.addPerson(config.names[1]);
 		// Gets the template and renders the view
-		getTemplate(render);
+		getTemplate(config.templatePath, render);
 	}
 
 	var cacheDOM = function() {
@@ -137,7 +137,7 @@ var cashup2 = (function() {
 		});
 	}
 
-	var getTemplate = function(callback) {
+	var getTemplate = function(path, callback) {
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 		  if (this.readyState == 4 && this.status == 200) {
@@ -146,7 +146,7 @@ var cashup2 = (function() {
 				callback();
 		  }
 		};
-		xhttp.open("GET", "template.mst", true);
+		xhttp.open("GET", path, true);
 		xhttp.send();
 	}
 
