@@ -10,16 +10,10 @@ var cashup2 = (function() {
 	// The global app
 	var cashup = new Cashup();
 	// Mustache template
-	var template;
-	var view;
+	var template = '';
+	var view = '';
 	// Dom objects
-	var appContainer;
-	var amountsContainers; // Holds the amounts of the persons
-	var addAmountButtons;
-	var removeAmountButtons;
-	var calcButton;
-	var outputDiv;
-
+	var dom = {};
 	// Data Structures / Models
 	// The app containing the persons
 	function Cashup() {
@@ -55,9 +49,9 @@ var cashup2 = (function() {
 		}
 
 		if (sum1 > sum2) {
-			this.result =  p2.name + " schuldet " + p1.name + " " + due + " Euro.";
+			this.result =  p2.name + " schuldet " + p1.name + " " + due + "€";
 		} else if (sum2 > sum1) {
-			this.result =  p1.name + " schuldet " + p2.name + " " + due + " Euro.";
+			this.result =  p1.name + " schuldet " + p2.name + " " + due + "€";
 		} else {
 			this.result =  "Die Beträge sind ausgeglichen.";
 		}
@@ -114,8 +108,8 @@ var cashup2 = (function() {
 
 	// Initialise app with passed config
 	var init = function(config) {
-		appContainer = document.getElementById(config.id);
-		if (!appContainer) {
+		dom.appContainer = document.getElementById(config.id);
+		if (!dom.appContainer) {
 			console.warn("Can't find the id in config.id");
 			return;
 		}
@@ -131,17 +125,17 @@ var cashup2 = (function() {
 	}
 
 	var cacheDOM = function() {
-		addAmountButtons = appContainer.querySelectorAll(".add_button");
-		calcButton = appContainer.querySelector("#cashup_calc");
-		amountsContainers = appContainer.querySelectorAll(".amounts_container");
-		removeAmountButtons = appContainer.querySelectorAll(".amount_remove");
+		dom.addAmountButtons = dom.appContainer.querySelectorAll(".add_button");
+		dom.calcButton = dom.appContainer.querySelector("#cashup_calc");
+		dom.amountsContainers = dom.appContainer.querySelectorAll(".amounts_container");
+		dom.removeAmountButtons = dom.appContainer.querySelectorAll(".amount_remove");
 	}
 
 	var addEvents = function() {
-		addAmountButtons[0].addEventListener("click", addAmountInputAction);
-		addAmountButtons[1].addEventListener("click", addAmountInputAction);
-		calcButton.addEventListener("click", cashupAction);
-		Array.prototype.forEach.call(removeAmountButtons, function(el) {
+		dom.addAmountButtons[0].addEventListener("click", addAmountInputAction);
+		dom.addAmountButtons[1].addEventListener("click", addAmountInputAction);
+		dom.calcButton.addEventListener("click", cashupAction);
+		Array.prototype.forEach.call(dom.removeAmountButtons, function(el) {
 			el.addEventListener("click", removeAmountInputAction);
 		});
 	}
@@ -170,8 +164,7 @@ var cashup2 = (function() {
 
 	var removeAmountInputAction = function(e) {
 		e.preventDefault();
-		var target = e.target;
-		var child = target.parentElement;
+		var child = e.target.parentElement;
 		var parent = child.parentElement;
 		var personIndex = parseInt(parent.id) - 1;
 		var index = Array.prototype.indexOf.call(parent.children, child);
@@ -194,7 +187,7 @@ var cashup2 = (function() {
 			var amounts = cashup.persons[i].amounts;
 			var len = amounts.length;
 			for (var k = 0, amount, val; k < len; k++) {
-				amount = amountsContainers[i]["children"][k];
+				amount = dom.amountsContainers[i]["children"][k];
 				val = amount.querySelector(".amount_input").value;
 				amounts[k].setValue(val);
 			}
@@ -204,7 +197,7 @@ var cashup2 = (function() {
 	// Render Objects to html
 	var render = function() {
 		view = Mustache.render(template, cashup);
-		appContainer.innerHTML = view;
+		dom.appContainer.innerHTML = view;
 		cacheDOM();
 		addEvents();
 	}
