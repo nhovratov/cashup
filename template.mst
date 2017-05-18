@@ -7,7 +7,13 @@
             <button id="{{index}}_add_button" class="add_button">+</button>
             <p>{{name}}</p>
             <div id="{{index}}_amounts" class="amounts_container">
-              
+            {{#amounts}}
+              <div class="amount">
+                <span>1</span>
+                <input class="amount_input" required="" step="0.01" name="2_amount[]" type="number" value="{{value}}"/>
+                <button>X</button>
+              </div>
+            {{/amounts}}
             </div>
           </div>
         {{/persons}}

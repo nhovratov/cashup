@@ -129,15 +129,21 @@ var cashup2 = (function() {
 		cashup.addPerson(config.names[1]);
 		// Gets the template and renders the view
 		getTemplate(function() {
-			// Cache Dom
-			addAmountButtons = appContainer.querySelectorAll(".add_button");
-			calcButton = appContainer.querySelector("#cashup_calc");
-			amountsContainers = appContainer.querySelectorAll(".amounts_container");
-			// Add events
-			addAmountButtons[0].addEventListener("click", addAmountInputAction);
-			addAmountButtons[1].addEventListener("click", addAmountInputAction);
-			calcButton.addEventListener("click", cashupAction);
+			cacheDOM();
+			addEvents();
 		});
+	}
+
+	var cacheDOM = function() {
+		addAmountButtons = appContainer.querySelectorAll(".add_button");
+		calcButton = appContainer.querySelector("#cashup_calc");
+		amountsContainers = appContainer.querySelectorAll(".amounts_container");
+	}
+
+	var addEvents = function() {
+		addAmountButtons[0].addEventListener("click", addAmountInputAction);
+		addAmountButtons[1].addEventListener("click", addAmountInputAction);
+		calcButton.addEventListener("click", cashupAction);
 	}
 
 	var getTemplate = function(callback) {
@@ -159,7 +165,7 @@ var cashup2 = (function() {
 	var addAmountInputAction = function(e) {
 		e.preventDefault();
 		var index = parseInt(e.target.id) - 1;
-		fetchValues(index);
+		fetchValues();
 		cashup.persons[index].addAmount();
 		render();
 	}
@@ -178,26 +184,30 @@ var cashup2 = (function() {
 
 	var cashupAction = function(e) {
 		e.preventDefault();
-		fetchValues(0);
-		fetchValues(1);
+		fetchValues();
 		var result = cashup.cashup();
 		renderResult(result);
 	}
 
 	// Update Data Structure, when buttons are pressed
-	var fetchValues = function(index) {
-		var amounts = cashup.persons[index].amounts;
-		var len = amounts.length;
-		for (var i = 0, amount, val; i < len; i++) {
-			amount = amountsContainers[index]["children"][i];
-			val = amount.querySelector(".amount_input").value;
-			amounts[i].setValue(val);
+	var fetchValues = function() {
+		for (var i = 0; i < 2; i++) {
+			var amounts = cashup.persons[i].amounts;
+			var len = amounts.length;
+			for (var k = 0, amount, val; k < len; k++) {
+				amount = amountsContainers[i]["children"][k];
+				val = amount.querySelector(".amount_input").value;
+				amounts[k].setValue(val);
+			}
 		}
 	}
 
 	// Render Objects to html
 	var render = function() {
-		Mustache.render(template, cashup);
+		view = Mustache.render(template, cashup);
+		appContainer.innerHTML = view;
+		cacheDOM();
+		addEvents();
 	}
 
 	var renderResult = function(result) {
