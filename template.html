@@ -43,6 +43,37 @@
         <div id="cashup_result" class="jumbotron text-center hidden">
           <p>{{result}}</p>
       </div>
+      <form id="cashup_db">
+        <fieldset>
+          <legend>Beträge speichern</legend>
+          <div class="row">
+          {{#persons}}
+            <div class="col-xs-6">
+              <input type="hidden" name="person[name]">
+              <input type="hidden" name="person[amount]">
+              <h2>{{name}}</h2>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Gesamtbetrag</th>
+                    <th>Davon Eigenkosten</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>*</td> <!-- cashup result divided by two plus own costs -->
+                    <td>*</td> <!-- Negative values as own costs -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          {{/persons}}
+          </div>
+          <div class="form-group">
+            <input class="btn btn-lg btn-primary pull-right" type="submit" name="submit_db" value="Speichern"/>
+          </div>
+        </fieldset>
+      </form>
     </div>
   </div>
 </div>
