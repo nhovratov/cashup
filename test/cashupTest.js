@@ -119,6 +119,50 @@ describe("Person", function() {
       assert(index === 2, "The index of the second person is not 2");
     });
   });
+    describe("getSumOfNegativeAmounts 0", function() {
+    it("should return the sum of all negative amounts", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.persons[0].addAmount(12.23);
+      cashup.persons[0].addAmount(1.11);
+      var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
+      assert(negativeAmount === "0.00", "The sum of all negative amounts is not 0.00");
+    });
+  });
+  describe("getSumOfNegativeAmounts 1", function() {
+    it("should return the sum of all negative amounts", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.persons[0].addAmount(12.23);
+      cashup.persons[0].addAmount(-1.19);
+      cashup.persons[0].addAmount(1.11);
+      var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
+      assert(negativeAmount === "-1.19", "The sum of all negative amounts is not -1.19");
+    });
+  });
+  describe("getSumOfNegativeAmounts 2", function() {
+    it("should return the sum of all negative amounts", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.persons[0].addAmount(12.23);
+      cashup.persons[0].addAmount(-1.19);
+      cashup.persons[0].addAmount(-1.11);
+      var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
+      assert(negativeAmount === "-2.30", "The sum of all negative amounts is not -2.30");
+    });
+  });
+  describe("getSumOfNegativeAmounts 3", function() {
+    it("should return the sum of all negative amounts", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.persons[0].addAmount(12.23);
+      cashup.persons[0].addAmount(-33.33);
+      cashup.persons[0].addAmount(-1.19);
+      cashup.persons[0].addAmount(-1.11);
+      var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
+      assert(negativeAmount === "-35.63", "The sum of all negative amounts is not -35.63");
+    });
+  });
 });
 
 describe("Amount", function() {

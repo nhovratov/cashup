@@ -88,6 +88,16 @@ var cashup2 = (function() {
 		});
 	}
 
+	Person.prototype.getSumOfNegativeAmounts = function() {
+		var negativeSum = 0;
+		this.amounts.forEach(function(el) {
+			if (el.getValue() < 0) {
+				negativeSum += el.getValue();
+			}
+		});
+		return negativeSum.toFixed(2);
+	}
+
 	// Amount
 	function Amount(value = null) {
 		this.setValue(value);
