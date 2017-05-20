@@ -19,6 +19,7 @@ var cashup2 = (function() {
 	function Cashup() {
 		this.persons = [];
 		this.result = '';
+		this.date;
 	}
 
 	Cashup.prototype.addPerson = function(name) {
@@ -116,6 +117,63 @@ var cashup2 = (function() {
 		return this.value || 0;
 	}
 
+	// CashupDate Singleton
+	var dateUtility = {
+		displayPastMonths: 2,
+		months: [
+			"Januar",
+			"Februar",
+			"März",
+			"April",
+			"Mai",
+			"Juni",
+			"Juli",
+			"August",
+			"September",
+			"Oktober",
+			"November",
+			"Dezember"
+		],
+
+		getMonth: function(index) {
+			return this.months[index];
+		},
+
+		getLastMonths: function() {
+			var dates = [];
+			var date;
+			for (var i = 0; i < this.displayPastMonths; i++) {
+				date = this.getPastDate(i);
+				dates.push(
+					{
+						displayString: this.getMonth(date.getMonth()) + " " + date.getFullYear(),
+						value: this.getDateString(date)
+					}
+				);
+			}
+			return dates;
+		},
+
+		getDateString: function(date) {
+			if (Object.getPrototypeOf(date).constructor !== Date) {
+				console.warn("date parameter must be of type Date!");
+				return;
+			}
+			return date.toISOString().substr(0, 10);
+		},
+
+		getPastDate: function(months) {
+			var date = new Date();
+			date.setMonth(date.getMonth() - months);
+			date.setDate(1);
+			return date;
+		}
+	}
+
+	// Bind the context to the cashup object
+	dateUtility.getMonth = dateUtility.getMonth.bind(dateUtility);
+	dateUtility.getLastMonths = dateUtility.getLastMonths.bind(dateUtility);
+
 	// Initialise app with passed config
 	var init = function(config) {
 		dom.appContainer = document.getElementById(config.id);
@@ -127,6 +185,12 @@ var cashup2 = (function() {
 			console.warn("Please provide 2 names in config.names");
 			return;
 		}
+		// Setup dateUtility
+		if (config.displayPastMonths) {
+			dateUtility.displayPastMonths = config.displayPastMonths;
+		}
+		// Get the current date
+		cashup.date = dateUtility;
 		// Add persons
 		cashup.addPerson(config.names[0]);
 		cashup.addPerson(config.names[1]);

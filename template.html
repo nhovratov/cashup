@@ -47,6 +47,18 @@
         <fieldset>
           <legend>Beträge speichern</legend>
           <div class="row">
+            <div class="col-xs-2">
+              <div class="form-group">
+                <label for="date_select">Für den Monat</label>
+                <select id="date_select" class="form-control" name="date">
+                  {{#date.getLastMonths}}
+                    <option value="{{value}}">{{displayString}}</option>
+                  {{/date.getLastMonths}}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
           {{#persons}}
             <div class="col-xs-6">
               <input type="hidden" name="person[name]">
