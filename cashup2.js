@@ -287,6 +287,7 @@ var cashup2 = (function() {
 		e.preventDefault();
 		fetchValues();
 		cashup.cashup();
+		cashup.setRealSumOfPersons();
 		render();
 		dom.cashupResult.classList.remove("hidden");
 	}
