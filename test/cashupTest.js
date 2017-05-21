@@ -135,34 +135,26 @@ describe("Person", function() {
       assert(person.amounts.length === 2, "No Amount removed from the list");
     });
   });
-  describe("getSum 1", function() {
+  describe("getSum", function() {
     it("should return 0, as the array is empty", function() {
       var person = new Person("Nikita");
       var sum = person.getSum();
       assert(sum === "0.00", "The sum is not 0.00");
     });
-  });
-  describe("getSum 2", function() {
-    it("should return the sum of the Amounts array.", function() {
+    it("should return the sum of the Amounts array[1].", function() {
       var person = new Person("Nikita");
       person.addAmount(1.10);
       var sum = person.getSum();
-
       assert(sum === "1.10", "The sum is not 1.1");
     });
-  });
-  describe("getSum 3", function() {
-    it("should return the sum of the Amounts array.", function() {
+    it("should return the sum of the Amounts array[2]", function() {
       var person = new Person("Nikita");
       person.addAmount(1);
       person.addAmount(2);
       var sum = person.getSum();
-
       assert(sum === "3.00", "The sum is not 3.3");
     });
-  });
-  describe("getSum 4", function() {
-    it("should return the sum of the Amounts array.", function() {
+    it("should return the sum of the Amounts array[3]", function() {
       var person = new Person("Nikita");
       person.addAmount(1.1);
       person.addAmount(2.2);
@@ -180,7 +172,7 @@ describe("Person", function() {
       assert(index === 2, "The index of the second person is not 2");
     });
   });
-    describe("getSumOfNegativeAmounts 0", function() {
+    describe("getSumOfNegativeAmounts", function() {
     it("should return the sum of all negative amounts", function() {
       var cashup = new Cashup();
       cashup.addPerson("Nikita");
@@ -189,8 +181,6 @@ describe("Person", function() {
       var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
       assert(negativeAmount === "0.00", "The sum of all negative amounts is not 0.00");
     });
-  });
-  describe("getSumOfNegativeAmounts 1", function() {
     it("should return the sum of all negative amounts", function() {
       var cashup = new Cashup();
       cashup.addPerson("Nikita");
@@ -200,8 +190,6 @@ describe("Person", function() {
       var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
       assert(negativeAmount === "1.19", "The sum of all negative amounts is not -1.19");
     });
-  });
-  describe("getSumOfNegativeAmounts 2", function() {
     it("should return the sum of all negative amounts", function() {
       var cashup = new Cashup();
       cashup.addPerson("Nikita");
@@ -211,8 +199,6 @@ describe("Person", function() {
       var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
       assert(negativeAmount === "2.30", "The sum of all negative amounts is not -2.30");
     });
-  });
-  describe("getSumOfNegativeAmounts 3", function() {
     it("should return the sum of all negative amounts", function() {
       var cashup = new Cashup();
       cashup.addPerson("Nikita");
@@ -235,7 +221,7 @@ describe("Amount", function() {
     });
   });
   describe("setValue", function() {
-    it("should set a value to the Amount", function() {
+    it("should set a value of the Amount", function() {
       var amount = new Amount();
       amount.setValue(1.11);
       assert(typeof amount.value === "number", "Amount is not a number");
