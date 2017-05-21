@@ -32,6 +32,21 @@ var cashup2 = (function() {
 		this.persons[this.persons.length - 1].personId = index;
 	}
 
+	Cashup.prototype.validateAmounts = function() {
+		var p1 = this.persons[0];
+		var p2 = this.persons[1];
+		var sum1 = Number(p1.getSum());
+		var sum2 = Number(p2.getSum());
+
+		if (sum1 < 0 || sum2 < 0) {
+			this.result = "Negative Kosten sind dafür da, um Eigenkosten rauszufiltern. Bitte geben Sie einen positiven Grundbetrag an. " +
+			"Um pure Eigenausgaben einzutragen, benutzen Sie das Formular für eigene Ausgaben."
+			return false;
+		}
+
+		return true;
+	}
+
 	Cashup.prototype.cashup = function(onlyDue = false) {
 		if (this.persons.length !== 2) {
 			console.error("Cashup only possible with 2 persons");
@@ -226,6 +241,7 @@ var cashup2 = (function() {
 		dom.removeAmountButtons = dom.appContainer.querySelectorAll(".amount_remove");
 		dom.cashupResult = dom.appContainer.querySelector("#cashup_result");
 		dom.inputFields = dom.appContainer.querySelectorAll(".amount_input");
+		dom.dbForm = dom.appContainer.querySelector("#cashup_db");
 		dom.dbSums = dom.appContainer.querySelectorAll(".db_sum");
 		dom.dbOwn = dom.appContainer.querySelectorAll(".db_own_amount");
 	}
@@ -286,10 +302,16 @@ var cashup2 = (function() {
 	var cashupAction = function(e) {
 		e.preventDefault();
 		fetchValues();
+		if(!cashup.validateAmounts()) {
+			render();
+			dom.cashupResult.classList.remove("hidden");
+			return false;
+		}
 		cashup.cashup();
 		cashup.setRealSumOfPersons();
 		render();
 		dom.cashupResult.classList.remove("hidden");
+		dom.dbForm.classList.remove("hidden");
 	}
 
 	var focusLastAddedInput = function(index) {
