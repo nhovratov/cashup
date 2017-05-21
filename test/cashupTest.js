@@ -137,7 +137,7 @@ describe("Person", function() {
       cashup.persons[0].addAmount(-1.19);
       cashup.persons[0].addAmount(1.11);
       var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
-      assert(negativeAmount === "-1.19", "The sum of all negative amounts is not -1.19");
+      assert(negativeAmount === "1.19", "The sum of all negative amounts is not -1.19");
     });
   });
   describe("getSumOfNegativeAmounts 2", function() {
@@ -148,7 +148,7 @@ describe("Person", function() {
       cashup.persons[0].addAmount(-1.19);
       cashup.persons[0].addAmount(-1.11);
       var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
-      assert(negativeAmount === "-2.30", "The sum of all negative amounts is not -2.30");
+      assert(negativeAmount === "2.30", "The sum of all negative amounts is not -2.30");
     });
   });
   describe("getSumOfNegativeAmounts 3", function() {
@@ -160,7 +160,7 @@ describe("Person", function() {
       cashup.persons[0].addAmount(-1.19);
       cashup.persons[0].addAmount(-1.11);
       var negativeAmount = cashup.persons[0].getSumOfNegativeAmounts();
-      assert(negativeAmount === "-35.63", "The sum of all negative amounts is not -35.63");
+      assert(negativeAmount === "35.63", "The sum of all negative amounts is not -35.63");
     });
   });
 });

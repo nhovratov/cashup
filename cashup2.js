@@ -96,7 +96,7 @@ var cashup2 = (function() {
 				negativeSum += el.getValue();
 			}
 		});
-		return negativeSum.toFixed(2);
+		return Math.abs(negativeSum).toFixed(2);
 	}
 
 	// Amount
@@ -205,6 +205,8 @@ var cashup2 = (function() {
 		dom.removeAmountButtons = dom.appContainer.querySelectorAll(".amount_remove");
 		dom.cashupResult = dom.appContainer.querySelector("#cashup_result");
 		dom.inputFields = dom.appContainer.querySelectorAll(".amount_input");
+		dom.dbSums = dom.appContainer.querySelectorAll(".db_sum");
+		dom.dbOwn = dom.appContainer.querySelectorAll(".db_own_amount");
 	}
 
 	var addEvents = function() {
