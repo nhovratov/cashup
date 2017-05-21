@@ -61,8 +61,8 @@
           <div class="row">
           {{#persons}}
             <div class="col-xs-6">
-              <input type="hidden" name="person[name]">
-              <input type="hidden" name="person[amount]">
+              <input type="hidden" name="person{{personId}}[name]" value="{{name}}">
+              <input type="hidden" name="person{{personId}}[amount]" value="{{realSum}}">
               <h2>{{name}}</h2>
               <table class="table">
                 <thead>
