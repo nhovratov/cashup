@@ -59,6 +59,22 @@ var cashup2 = (function() {
 
 	}
 
+	Cashup.prototype.getFullSum = function(personId) {
+		if (this.persons.length !== 2) {
+			console.error("Only possible with 2 persons");
+			return false;
+		}
+		var p1 = this.persons[0];
+		var p2 = this.persons[1];
+		var sum1 = Number(p1.getSum());
+		var sum2 = Number(p2.getSum());
+		var ownAmount1 = Number(p1.getSumOfNegativeAmounts());
+		var ownAmount2 = Number(p2.getSumOfNegativeAmounts());
+		var posSum = sum1 + sum2;
+		var negSum = ownAmount1 + ownAmount2
+		return (posSum + negSum).toFixed(2);
+	}
+
 	// Person
 	function Person(name) {
 		this.name = name;

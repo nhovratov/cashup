@@ -47,6 +47,35 @@ describe("Cashup", function() {
       assert(cashup.result === "14.75", "Wrong value returned, expected 15");
     });
   });
+ describe("getFullSum", function() {
+    it("should return the complete sum of all amounts of all persons", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.addPerson("Lisa");
+      cashup.persons[0].addAmount(15);
+      cashup.persons[0].addAmount(25);
+      cashup.persons[0].addAmount(30);
+      cashup.persons[1].addAmount(5);
+      cashup.persons[1].addAmount(15);
+      cashup.persons[1].addAmount(20.5);
+      var sum = cashup.getFullSum();
+      assert(sum === "110.50", "The sum is not 110.50");
+    });
+    it("should not take negative (own costs) in account", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.addPerson("Lisa");
+      cashup.persons[0].addAmount(15);
+      cashup.persons[0].addAmount(25);
+      cashup.persons[0].addAmount(30);
+      cashup.persons[1].addAmount(5);
+      cashup.persons[1].addAmount(15);
+      cashup.persons[1].addAmount(20.5);
+      cashup.persons[1].addAmount(-10.5);
+      var sum = cashup.getFullSum();
+      assert(sum === "110.50", "The sum is not 110.50");
+    });
+  });
 });
 
 describe("Person", function() {
