@@ -61,7 +61,7 @@ describe("Cashup", function() {
       var sum = cashup.getFullSum();
       assert(sum === "110.50", "The sum is not 110.50");
     });
-    it("should not take negative (own costs) in account", function() {
+    it("should take negative (own costs) in account", function() {
       var cashup = new Cashup();
       cashup.addPerson("Nikita");
       cashup.addPerson("Lisa");
@@ -73,7 +73,39 @@ describe("Cashup", function() {
       cashup.persons[1].addAmount(20.5);
       cashup.persons[1].addAmount(-10.5);
       var sum = cashup.getFullSum();
-      assert(sum === "110.50", "The sum is not 110.50");
+      assert(sum === "100.00", "The sum is not 100.00");
+    });
+  });
+  describe("setRealSumOfPersons", function() {
+    it("should set the half of the realSum plus own costs as realSum for every person", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.addPerson("Lisa");
+      cashup.persons[0].addAmount(15);
+      cashup.persons[0].addAmount(25);
+      cashup.persons[0].addAmount(30);
+      cashup.persons[1].addAmount(5);
+      cashup.persons[1].addAmount(15);
+      cashup.persons[1].addAmount(20.5);
+      cashup.persons[1].addAmount(-10.5);
+      cashup.setRealSumOfPersons();
+      var sum = cashup.persons[0].realSum;
+      assert(sum === "50.00", "The sum is not 50.00");
+    });
+    it("should add own costs", function() {
+      var cashup = new Cashup();
+      cashup.addPerson("Nikita");
+      cashup.addPerson("Lisa");
+      cashup.persons[0].addAmount(15);
+      cashup.persons[0].addAmount(25);
+      cashup.persons[0].addAmount(30);
+      cashup.persons[1].addAmount(5);
+      cashup.persons[1].addAmount(15);
+      cashup.persons[1].addAmount(20.5);
+      cashup.persons[1].addAmount(-10.5);
+      cashup.setRealSumOfPersons();
+      var sum = cashup.persons[1].realSum;
+      assert(sum === "60.50", "The sum is not 50.00");
     });
   });
 });

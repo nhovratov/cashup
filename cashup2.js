@@ -59,7 +59,7 @@ var cashup2 = (function() {
 
 	}
 
-	Cashup.prototype.getFullSum = function(personId) {
+	Cashup.prototype.getFullSum = function() {
 		if (this.persons.length !== 2) {
 			console.error("Only possible with 2 persons");
 			return false;
@@ -68,11 +68,15 @@ var cashup2 = (function() {
 		var p2 = this.persons[1];
 		var sum1 = Number(p1.getSum());
 		var sum2 = Number(p2.getSum());
-		var ownAmount1 = Number(p1.getSumOfNegativeAmounts());
-		var ownAmount2 = Number(p2.getSumOfNegativeAmounts());
 		var posSum = sum1 + sum2;
-		var negSum = ownAmount1 + ownAmount2
-		return (posSum + negSum).toFixed(2);
+		return posSum.toFixed(2);
+	}
+
+	Cashup.prototype.setRealSumOfPersons = function() {
+		var fullSum = this.getFullSum();
+		this.persons.forEach(function(el) {
+			el.realSum = ((Number(fullSum) / 2) + Number(el.getSumOfNegativeAmounts())).toFixed(2);
+		});
 	}
 
 	// Person
@@ -80,6 +84,7 @@ var cashup2 = (function() {
 		this.name = name;
 		this.amounts = [];
 		this.personId;
+		this.realSum;
 	}
 
 	Person.prototype.addAmount = function(amount = null) {
