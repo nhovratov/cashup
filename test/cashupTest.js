@@ -44,7 +44,7 @@ describe("Cashup", function() {
       cashup.persons[1].addAmount(15);
       cashup.persons[1].addAmount(20.5);
       cashup.cashup(true);
-      assert(cashup.result === "14.75", "Wrong value returned, expected 15");
+      assert(cashup.result.text === "14.75", "Wrong value returned, expected 15");
     });
   });
  describe("getFullSum", function() {

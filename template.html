@@ -40,8 +40,8 @@
             </button>
           </fieldset>
         </form>
-        <div id="cashup_result" class="jumbotron text-center hidden">
-          <p>{{result}}</p>
+        <div id="cashup_result" class="jumbotron text-center {{result.class}}">
+          <p>{{result.text}}</p>
       </div>
       <form id="cashup_db" class="hidden" method="post" action="db.php">
         <fieldset>
@@ -82,10 +82,13 @@
           {{/persons}}
           </div>
           <div class="form-group">
-            <input class="btn btn-lg btn-primary pull-right" type="submit" name="submit_db" value="Speichern"/>
+            <input id="db_save" class="btn btn-lg btn-primary pull-right" type="submit" name="submit_db" value="Speichern"/>
           </div>
         </fieldset>
       </form>
+      <div id="db_result" class="jumbotron text-center {{dbResult.class}}">
+          <p>{{dbResult.text}}</p>
+      </div>
     </div>
   </div>
 </div>

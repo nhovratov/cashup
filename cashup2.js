@@ -18,7 +18,8 @@ var cashup2 = (function() {
 	// The app containing the persons
 	function Cashup() {
 		this.persons = [];
-		this.result = '';
+		this.result = new StatusBox();
+		this.dbResult = new StatusBox();
 		this.date;
 	}
 
@@ -39,7 +40,7 @@ var cashup2 = (function() {
 		var sum2 = Number(p2.getSum());
 
 		if (sum1 < 0 || sum2 < 0) {
-			this.result = "Negative Kosten sind dafür da, um Eigenkosten rauszufiltern. Bitte geben Sie einen positiven Grundbetrag an. " +
+			this.result.text = "Negative Kosten sind dafür da, um Eigenkosten rauszufiltern. Bitte geben Sie einen positiven Grundbetrag an. " +
 			"Um pure Eigenausgaben einzutragen, benutzen Sie das Formular für eigene Ausgaben."
 			return false;
 		}
@@ -60,16 +61,16 @@ var cashup2 = (function() {
 		var due = (diff / 2).toFixed(2);
 
 		if (onlyDue) {
-			this.result = due;
+			this.result.text = due;
 			return;
 		}
 
 		if (sum1 > sum2) {
-			this.result =  p2.name + " schuldet " + p1.name + " " + due + "€";
+			this.result.text =  p2.name + " schuldet " + p1.name + " " + due + "€";
 		} else if (sum2 > sum1) {
-			this.result =  p1.name + " schuldet " + p2.name + " " + due + "€";
+			this.result.text =  p1.name + " schuldet " + p2.name + " " + due + "€";
 		} else {
-			this.result =  "Die Beträge sind ausgeglichen.";
+			this.result.text =  "Die Beträge sind ausgeglichen.";
 		}
 
 	}
@@ -91,6 +92,12 @@ var cashup2 = (function() {
 		var fullSum = this.getFullSum();
 		this.persons.forEach(function(el) {
 			el.realSum = ((Number(fullSum) / 2) + Number(el.getSumOfNegativeAmounts())).toFixed(2);
+		});
+	}
+
+	Cashup.prototype.reset = function() {
+		this.persons.forEach(function(person) {
+			person.amounts = [];
 		});
 	}
 
@@ -151,6 +158,11 @@ var cashup2 = (function() {
 
 	Amount.prototype.getValue = function() {
 		return this.value || 0;
+	}
+
+	function StatusBox() {
+		this.text = '';
+		this.class = 'hidden';
 	}
 
 	// CashupDate Singleton
@@ -244,6 +256,8 @@ var cashup2 = (function() {
 		dom.dbForm = dom.appContainer.querySelector("#cashup_db");
 		dom.dbSums = dom.appContainer.querySelectorAll(".db_sum");
 		dom.dbOwn = dom.appContainer.querySelectorAll(".db_own_amount");
+		dom.dbSave = dom.appContainer.querySelector("#db_save");
+		dom.dbResult = dom.appContainer.querySelector("#db_result");
 	}
 
 	var addEvents = function() {
@@ -256,6 +270,7 @@ var cashup2 = (function() {
 		Array.prototype.forEach.call(dom.inputFields, function(el) {
 			el.addEventListener("keypress", addAmountInputAction);
 		});
+		dom.dbSave.addEventListener("click", saveAction);
 	}
 
 	var getTemplate = function(path, callback) {
@@ -312,6 +327,23 @@ var cashup2 = (function() {
 		render();
 		dom.cashupResult.classList.remove("hidden");
 		dom.dbForm.classList.remove("hidden");
+	}
+
+	var saveAction = function(e) {
+		e.preventDefault();
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
+		  	cashup.reset();
+		  	cashup.dbResult.text = this.responseText;
+		  	cashup.dbResult.class = "visible";
+		    dom.dbForm.classList.add("hidden");
+		    dom.cashupResult.classList.add("hidden");
+			render();
+		  }
+		};
+		xhttp.open("POST", "db.php", true);
+		xhttp.send(new FormData(dom.dbForm));
 	}
 
 	var focusLastAddedInput = function(index) {
