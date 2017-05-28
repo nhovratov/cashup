@@ -6,6 +6,8 @@
 	<title>Kassensturz</title>
 	<script src="node_modules/mustache/mustache.min.js"></script>
 	<script src="serialize-0.2.js"></script>
+	<script src="Amount.js"></script>
+	<script src="Person.js"></script>
 	<script src="cashup2.js"></script>
 	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
 </head>
@@ -21,7 +23,7 @@
 	</style>
 	<div id="cashup"></div>
 	<script>
-		cashup2.init({
+		cashup2.cashup.init({
 			id: "cashup",
 			names: ["Lisa", "Nikita"],
 			templatePath: "template.html",

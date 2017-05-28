@@ -5,8 +5,9 @@ who share the costs in a household
 Nikita Hovratov
 github.com/nhovratov
 */
+var cashup2 = cashup2 || {};
 
-var cashup2 = (function() {
+cashup2.cashup = (function() {
 	// The global app
 	var cashup = new Cashup();
 	// Mustache template
@@ -14,6 +15,11 @@ var cashup2 = (function() {
 	var view = '';
 	// Dom objects
 	var dom = {};
+
+	// Dependencies
+	var Amount = cashup2.Amount;
+	var Person = cashup2.Person;
+
 	// Data Structures / Models
 	// The app containing the persons
 	function Cashup() {
@@ -99,65 +105,6 @@ var cashup2 = (function() {
 		this.persons.forEach(function(person) {
 			person.amounts = [];
 		});
-	}
-
-	// Person
-	function Person(name) {
-		this.name = name;
-		this.amounts = [];
-		this.personId;
-		this.realSum;
-	}
-
-	Person.prototype.addAmount = function(amount = null) {
-		var index = this.amounts.push(new Amount(amount));
-		this.amounts[this.amounts.length - 1].index = index;
-	}
-
-	Person.prototype.removeAmount = function(index) {
-		this.amounts.splice(index, 1);
-	}
-
-	Person.prototype.getSum = function() {
-		var sum = 0.00;
-		this.amounts.forEach(function(el) {
-			sum += el.getValue();
-		});
-		return sum.toFixed(2);
-	}
-
-	Person.prototype.renumberAmounts = function() {
-		this.amounts.forEach(function(el, index){
-			el.index = index + 1;
-		});
-	}
-
-	Person.prototype.getSumOfNegativeAmounts = function() {
-		var negativeSum = 0;
-		this.amounts.forEach(function(el) {
-			if (el.getValue() < 0) {
-				negativeSum += el.getValue();
-			}
-		});
-		return Math.abs(negativeSum).toFixed(2);
-	}
-
-	// Amount
-	function Amount(value = null) {
-		this.setValue(value);
-		this.index;
-	}
-
-	Amount.prototype.setValue = function(val) {
-		if (val !== '' && val !== null) {
-			this.value = parseFloat(val);
-		} else {
-			this.value = null;
-		}
-	}
-
-	Amount.prototype.getValue = function() {
-		return this.value || 0;
 	}
 
 	function StatusBox() {
@@ -386,9 +333,7 @@ var cashup2 = (function() {
 		init: init,
 		api: cashup,
 		constructors: {
-			Cashup: Cashup,
-			Person: Person,
-			Amount: Amount,
+			Cashup: Cashup
 		},
 	}
 }());

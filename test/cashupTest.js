@@ -1,8 +1,7 @@
 var assert = chai.assert;
-var api = cashup2.constructors;
-var Cashup = api.Cashup;
-var Person = api.Person;
-var Amount = api.Amount;
+var Cashup = cashup2.cashup.constructors.Cashup;
+var Person = cashup2.Person;
+var Amount = cashup2.Amount;
 
 describe("Cashup", function() {
   describe("constructor", function() {
