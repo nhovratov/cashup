@@ -1,7 +1,7 @@
-requirejs.config({
+require.config({
     baseUrl: '../JavaScript'
 });
-requirejs(['app/Amount', 'app/Person', 'app/Cashup'], function(Amount, Person, Cashup) {
+require(['app/Amount', 'app/Person', 'app/Cashup'], function(Amount, Person, Cashup) {
     var assert = chai.assert;
     mocha.setup('bdd');
     describe("Cashup", function () {
