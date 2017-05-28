@@ -51,9 +51,9 @@
               <div class="form-group">
                 <label for="date_select">Für den Monat</label>
                 <select id="date_select" class="form-control" name="date">
-                  {{#date.getLastMonths}}
+                  {{#lastMonths}}
                     <option value="{{value}}">{{displayString}}</option>
-                  {{/date.getLastMonths}}
+                  {{/lastMonths}}
                 </select>
               </div>
             </div>
