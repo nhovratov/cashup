@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+        <form id="selfcost_form" method="post">
+          <fieldset>
+            <legend class="h1">Eigenkosten eintragen</legend>
+              <div class="row">
+                  <div class="col-md-4">
+                      <label for="select_dbperson">Person auswählen</label>
+                      <select id="select_dbperson" class="form-control" name="person_id">
+                      {{#db_persons}}
+                          <option value="{{id_person}}" {{selected}}>{{vorname}} {{nachname}}</option>
+                      {{/db_persons}}
+                      </select>
+                  </div>
+              </div>
+            <div class="row">
+            {{#persons}}
+              <div class="col-md-6">
+                <div id="{{personId}}_person" class="amounts_wrapper">
+                  <button id="{{personId}}_add_button" class="add_button btn btn-lg btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                  </button>
+                  <h2>{{name}}</h2>
+                  <div id="{{personId}}_amounts" class="amounts_container">
+                    {{#amounts}}
+                    <div class="amount form-group">
+                      <div class="row">
+                        <div class="col-xs-1">
+                          <span class="h2">{{index}}</span>
+                        </div>
+                        <div class="col-xs-10">
+                          <input class="amount_input form-control" required="" step="0.01"
+                           name="amount[]" type="number" value="{{value}}"/>
+                        </div>
+                        <div class="col-xs-1">
+                          <button class="amount_remove close"><span>&times;</span></button>
+                        </div>
+                      </div>
+                    </div>
+                  {{/amounts}}
+                  </div>
+                  <p class="amount_sum">Summe: <strong>{{getSum}}&#8364;</strong></p>
+                </div>
+              </div>
+            {{/persons}}
+            </div>
+            <button id="sum_calc" class="btn btn-lg btn-primary pull-right" type="submit">
+              Berechnen!
+            </button>
+          </fieldset>
+        </form>
+        <div id="sum_result" class="jumbotron text-center {{result.class}}"><p>{{result.text}}</p></div>
+      <div id="db_result" class="jumbotron text-center {{dbResult.class}}">
+          <p>{{dbResult.text}}</p>
+      </div>
+    </div>
+  </div>
+</div>

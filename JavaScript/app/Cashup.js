@@ -1,4 +1,4 @@
-define(['app/Person'], function (Person) {
+define(['app/Person', 'app/Statusbox'], function (Person, StatusBox) {
     "use strict";
     function Cashup() {
         this.persons = [];
@@ -85,11 +85,6 @@ define(['app/Person'], function (Person) {
             person.amounts = [];
         });
     };
-
-    function StatusBox() {
-        this.text = '';
-        this.class = 'hidden';
-    }
 
     return Cashup;
 
