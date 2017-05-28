@@ -52,10 +52,6 @@ cashup2.dateUtility = (function(){
       return date;
     }
   }
-  //TODO Maybe remove this, since its not being called anymore from cashuo object
-  // Bind the context to the cashup object
-  dateUtility.getMonth = dateUtility.getMonth.bind(dateUtility);
-  dateUtility.getLastMonths = dateUtility.getLastMonths.bind(dateUtility);
 
   return dateUtility;
 }());
