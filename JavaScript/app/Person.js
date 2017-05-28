@@ -1,8 +1,4 @@
-var cashup2 = cashup2 || {};
-
-cashup2.Person = (function () {
-    // Dependencies
-    var Amount = cashup2.Amount;
+define(['app/Amount'], function (Amount) {
 
     function Person(name) {
         this.name = name;
@@ -46,5 +42,4 @@ cashup2.Person = (function () {
     };
 
     return Person;
-
-}());
+});

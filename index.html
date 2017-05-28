@@ -4,13 +4,7 @@
     <meta charset="utf-8">
     <meta lang="de">
     <title>Kassensturz</title>
-    <script src="node_modules/mustache/mustache.min.js"></script>
-    <script src="JavaScript/Amount.js"></script>
-    <script src="JavaScript/Person.js"></script>
-    <script src="JavaScript/dateUtility.js"></script>
-    <script src="JavaScript/Cashup.js"></script>
-    <script src="JavaScript/core.js"></script>
-    <script src="JavaScript/cashup_app.js"></script>
+    <script src="JavaScript/require.js"></script>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
     <style>
         #cashup_form,
@@ -27,11 +21,16 @@
 
 <div id="cashup"></div>
 <script>
-    cashup2.cashup.init({
-        id: "cashup",
-        names: ["Lisa", "Nikita"],
-        templatePath: "Templates/cashup_app.html",
-        displayPastMonths: 2,
+    requirejs.config({
+        baseUrl: 'JavaScript'
+    });
+    require(['cashup_app'], function (cashup2) {
+        cashup2.init({
+            id: "cashup",
+            names: ["Lisa", "Nikita"],
+            templatePath: "Templates/cashup_app.html",
+            displayPastMonths: 2,
+        });
     });
 </script>
 </body>

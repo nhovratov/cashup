@@ -1,6 +1,4 @@
-var cashup2 = cashup2 || {};
-// CashupDate Singleton
-cashup2.dateUtility = (function () {
+define(function () {
     return {
         displayPastMonths: 2,
         months: [
@@ -51,5 +49,5 @@ cashup2.dateUtility = (function () {
             return date;
         }
     }
+});
 
-}());

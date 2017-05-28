@@ -5,17 +5,19 @@
  Nikita Hovratov
  github.com/nhovratov
  */
-var cashup2 = cashup2 || {};
 
-cashup2.cashup = (function () {
-    // Dependencies
-    var DefaultApp = cashup2.DefaultApp;
-    var Cashup = cashup2.Cashup;
-    var dateUtility = cashup2.dateUtility;
-
-    // The global app
-    var app = new DefaultApp();
-    app.cashup = new Cashup();
+define(
+    [
+        'app/DefaultApp',
+        'app/dateUtility',
+        'app/Amount',
+        'app/Person',
+        'app/Cashup'
+    ],
+    function (DefaultApp, dateUtility, Amount, Person, Cashup) {
+        // The global app
+        var app = new DefaultApp();
+        app.cashup = new Cashup();
 
     // Initialise app with passed config
     var init = function (config) {
@@ -133,4 +135,4 @@ cashup2.cashup = (function () {
     return {
         init: init
     }
-}());
+});

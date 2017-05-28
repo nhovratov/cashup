@@ -1,6 +1,4 @@
-var cashup2 = cashup2 || {};
-
-cashup2.DefaultApp = (function (Mustache) {
+define(['lib/mustache'], function (Mustache) {
 
     function DefaultApp() {
         this.cashup = {};
@@ -67,4 +65,4 @@ cashup2.DefaultApp = (function (Mustache) {
     };
 
     return DefaultApp;
-}(Mustache));
+});
