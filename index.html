@@ -5,13 +5,12 @@
 	<meta lang="de">
 	<title>Kassensturz</title>
 	<script src="node_modules/mustache/mustache.min.js"></script>
-	<script src="serialize-0.2.js"></script>
-	<script src="Amount.js"></script>
-	<script src="Person.js"></script>
-	<script src="dateUtility.js"></script>
-	<script src="Cashup.js"></script>
-	<script src="core.js"></script>
-	<script src="cashup2.js"></script>
+	<script src="JavaScript/Amount.js"></script>
+	<script src="JavaScript/Person.js"></script>
+	<script src="JavaScript/dateUtility.js"></script>
+	<script src="JavaScript/Cashup.js"></script>
+	<script src="JavaScript/core.js"></script>
+	<script src="JavaScript/cashup_app.js"></script>
 	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
@@ -29,7 +28,7 @@
 		cashup2.cashup.init({
 			id: "cashup",
 			names: ["Lisa", "Nikita"],
-			templatePath: "template.html",
+			templatePath: "Templates/cashup_app.html",
 			displayPastMonths: 2,
 		});
 	</script>

@@ -12,7 +12,7 @@ cashup2.cashup = (function() {
 	var DefaultApp = cashup2.DefaultApp;
 	var Cashup = cashup2.Cashup;
 	var dateUtility = cashup2.dateUtility;
-	
+
 	// The global app
 	var app = new DefaultApp();
 	app.cashup = new Cashup();
@@ -127,7 +127,7 @@ cashup2.cashup = (function() {
 			app.render();
 		  }
 		};
-		xhttp.open("POST", "db.php", true);
+		xhttp.open("POST", "Php/db.php", true);
 		xhttp.send(new FormData(app.dom.dbForm));
 	}
 
