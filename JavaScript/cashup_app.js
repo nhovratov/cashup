@@ -15,6 +15,7 @@ define(
         'app/Cashup'
     ],
     function (DefaultApp, dateUtility, Amount, Person, Cashup) {
+        "use strict";
         // The global app
         var app = new DefaultApp();
         app.cashup = new Cashup();

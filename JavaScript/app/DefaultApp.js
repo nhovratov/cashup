@@ -1,5 +1,5 @@
 define(['lib/mustache'], function (Mustache) {
-
+    "use strict";
     function DefaultApp() {
         this.cashup = {};
         this.template = '';

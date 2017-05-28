@@ -1,5 +1,5 @@
 define(['app/Person'], function (Person) {
-
+    "use strict";
     function Cashup() {
         this.persons = [];
         this.result = new StatusBox();

@@ -1,5 +1,5 @@
 define(['app/Amount'], function (Amount) {
-
+    "use strict";
     function Person(name) {
         this.name = name;
         this.amounts = [];

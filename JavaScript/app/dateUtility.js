@@ -1,4 +1,5 @@
 define(function () {
+    "use strict";
     return {
         displayPastMonths: 2,
         months: [
