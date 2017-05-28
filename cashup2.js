@@ -1,5 +1,5 @@
 /*
-Cashup2, The second version of the tool for calculating the owe value between 2 persons,
+app, The second version of the tool for calculating the owe value between 2 persons,
 who share the costs in a household
 
 Nikita Hovratov
@@ -8,115 +8,19 @@ github.com/nhovratov
 var cashup2 = cashup2 || {};
 
 cashup2.cashup = (function() {
-	// The global app
-	var cashup = new Cashup();
-	// Mustache template
-	var template = '';
-	var view = '';
-	// Dom objects
-	var dom = {};
-
 	// Dependencies
-	var Amount = cashup2.Amount;
-	var Person = cashup2.Person;
+	var DefaultApp = cashup2.DefaultApp;
+	var Cashup = cashup2.Cashup;
 	var dateUtility = cashup2.dateUtility;
-
-	// Data Structures / Models
-	// The app containing the persons
-	function Cashup() {
-		this.persons = [];
-		this.result = new StatusBox();
-		this.dbResult = new StatusBox();
-		this.lastMonths;
-	}
-
-	Cashup.prototype.addPerson = function(name) {
-		var index;
-		if (this.persons.length === 2) {
-			console.error("Only 2 persons are allowed!");
-			return;
-		}
-		index = this.persons.push(new Person(name));
-		this.persons[this.persons.length - 1].personId = index;
-	}
-
-	Cashup.prototype.validateAmounts = function() {
-		var p1 = this.persons[0];
-		var p2 = this.persons[1];
-		var sum1 = Number(p1.getSum());
-		var sum2 = Number(p2.getSum());
-
-		if (sum1 < 0 || sum2 < 0) {
-			this.result.text = "Negative Kosten sind dafür da, um Eigenkosten rauszufiltern. Bitte geben Sie einen positiven Grundbetrag an. " +
-			"Um pure Eigenausgaben einzutragen, benutzen Sie das Formular für eigene Ausgaben."
-			return false;
-		}
-
-		return true;
-	}
-
-	Cashup.prototype.cashup = function(onlyDue = false) {
-		if (this.persons.length !== 2) {
-			console.error("Cashup only possible with 2 persons");
-			return false;
-		}
-		var p1 = this.persons[0];
-		var p2 = this.persons[1];
-		var sum1 = Number(p1.getSum());
-		var sum2 = Number(p2.getSum());
-		var diff = Math.abs(sum1 - sum2);
-		var due = (diff / 2).toFixed(2);
-
-		if (onlyDue) {
-			this.result.text = due;
-			return;
-		}
-
-		if (sum1 > sum2) {
-			this.result.text =  p2.name + " schuldet " + p1.name + " " + due + "€";
-		} else if (sum2 > sum1) {
-			this.result.text =  p1.name + " schuldet " + p2.name + " " + due + "€";
-		} else {
-			this.result.text =  "Die Beträge sind ausgeglichen.";
-		}
-
-	}
-
-	Cashup.prototype.getFullSum = function() {
-		if (this.persons.length !== 2) {
-			console.error("Only possible with 2 persons");
-			return false;
-		}
-		var p1 = this.persons[0];
-		var p2 = this.persons[1];
-		var sum1 = Number(p1.getSum());
-		var sum2 = Number(p2.getSum());
-		var posSum = sum1 + sum2;
-		return posSum.toFixed(2);
-	}
-
-	Cashup.prototype.setRealSumOfPersons = function() {
-		var fullSum = this.getFullSum();
-		this.persons.forEach(function(el) {
-			el.realSum = ((Number(fullSum) / 2) + Number(el.getSumOfNegativeAmounts())).toFixed(2);
-		});
-	}
-
-	Cashup.prototype.reset = function() {
-		this.persons.forEach(function(person) {
-			person.amounts = [];
-		});
-	}
-
-	function StatusBox() {
-		this.text = '';
-		this.class = 'hidden';
-	}
+	
+	// The global app
+	var app = new DefaultApp();
+	app.cashup = new Cashup();
 
 	// Initialise app with passed config
 	var init = function(config) {
-		dom.appContainer = document.getElementById(config.id);
-		if (!dom.appContainer) {
+		app.dom.appContainer = document.getElementById(config.id);
+		if (!app.dom.appContainer) {
 			console.warn("Can't find the id in config.id");
 			return;
 		}
@@ -129,53 +33,41 @@ cashup2.cashup = (function() {
 			dateUtility.displayPastMonths = config.displayPastMonths;
 		}
 
-		cashup.lastMonths = dateUtility.getLastMonths();
+		app.cashup.lastMonths = dateUtility.getLastMonths();
 
 		// Add persons
-		cashup.addPerson(config.names[0]);
-		cashup.addPerson(config.names[1]);
+		app.cashup.addPerson(config.names[0]);
+		app.cashup.addPerson(config.names[1]);
 		// Gets the template and renders the view
-		getTemplate(config.templatePath, render);
+		app.getTemplate(config.templatePath);
 	}
 
-	var cacheDOM = function() {
-		dom.addAmountButtons = dom.appContainer.querySelectorAll(".add_button");
-		dom.calcButton = dom.appContainer.querySelector("#cashup_calc");
-		dom.amountsContainers = dom.appContainer.querySelectorAll(".amounts_container");
-		dom.removeAmountButtons = dom.appContainer.querySelectorAll(".amount_remove");
-		dom.cashupResult = dom.appContainer.querySelector("#cashup_result");
-		dom.inputFields = dom.appContainer.querySelectorAll(".amount_input");
-		dom.dbForm = dom.appContainer.querySelector("#cashup_db");
-		dom.dbSums = dom.appContainer.querySelectorAll(".db_sum");
-		dom.dbOwn = dom.appContainer.querySelectorAll(".db_own_amount");
-		dom.dbSave = dom.appContainer.querySelector("#db_save");
-		dom.dbResult = dom.appContainer.querySelector("#db_result");
+	// Interfaces to implement
+	app.cacheDOM = function() {
+		app.dom.addAmountButtons = app.dom.appContainer.querySelectorAll(".add_button");
+		app.dom.calcButton = app.dom.appContainer.querySelector("#cashup_calc");
+		app.dom.amountsContainers = app.dom.appContainer.querySelectorAll(".amounts_container");
+		app.dom.removeAmountButtons = app.dom.appContainer.querySelectorAll(".amount_remove");
+		app.dom.cashupResult = app.dom.appContainer.querySelector("#cashup_result");
+		app.dom.inputFields = app.dom.appContainer.querySelectorAll(".amount_input");
+		app.dom.dbForm = app.dom.appContainer.querySelector("#cashup_db");
+		app.dom.dbSums = app.dom.appContainer.querySelectorAll(".db_sum");
+		app.dom.dbOwn = app.dom.appContainer.querySelectorAll(".db_own_amount");
+		app.dom.dbSave = app.dom.appContainer.querySelector("#db_save");
+		app.dom.dbResult = app.dom.appContainer.querySelector("#db_result");
 	}
 
-	var addEvents = function() {
-		dom.addAmountButtons[0].addEventListener("click", addAmountInputAction);
-		dom.addAmountButtons[1].addEventListener("click", addAmountInputAction);
-		dom.calcButton.addEventListener("click", cashupAction);
-		Array.prototype.forEach.call(dom.removeAmountButtons, function(el) {
+	app.addEvents = function() {
+		app.dom.addAmountButtons[0].addEventListener("click", addAmountInputAction);
+		app.dom.addAmountButtons[1].addEventListener("click", addAmountInputAction);
+		app.dom.calcButton.addEventListener("click", cashupAction);
+		Array.prototype.forEach.call(app.dom.removeAmountButtons, function(el) {
 			el.addEventListener("click", removeAmountInputAction);
 		});
-		Array.prototype.forEach.call(dom.inputFields, function(el) {
+		Array.prototype.forEach.call(app.dom.inputFields, function(el) {
 			el.addEventListener("keypress", addAmountInputAction);
 		});
-		dom.dbSave.addEventListener("click", saveAction);
-	}
-
-	var getTemplate = function(path, callback) {
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-		  if (this.readyState == 4 && this.status == 200) {
-		    template = this.responseText;
-				Mustache.parse(template);
-				callback();
-		  }
-		};
-		xhttp.open("GET", path, true);
-		xhttp.send();
+		app.dom.dbSave.addEventListener("click", saveAction);
 	}
 
 	// Event functions
@@ -186,39 +78,40 @@ cashup2.cashup = (function() {
 			}
 		}
 		e.preventDefault();
-		var parent = findParentByClassName(e.target, "amounts_wrapper");
+		var parent = app.findParentByClassName(e.target, "amounts_wrapper");
 		var index = parseInt(parent.id) - 1;
-		fetchValues();
-		cashup.persons[index].addAmount();
-		render();
-		focusLastAddedInput(index);
+		app.fetchValues();
+		app.cashup.persons[index].addAmount();
+		app.render();
+		app.focusLastAddedInput(index);
 	}
+
 
 	var removeAmountInputAction = function(e) {
 		e.preventDefault();
-		var child = findParentByClassName(e.target, "amount");
-		var parent = findParentByClassName(e.target, "amounts_container");
+		var child = app.findParentByClassName(e.target, "amount");
+		var parent = app.findParentByClassName(e.target, "amounts_container");
 		var personIndex = parseInt(parent.id) - 1;
 		var index = Array.prototype.indexOf.call(parent.children, child);
-		fetchValues();
-		cashup.persons[personIndex].removeAmount(index);
-		cashup.persons[personIndex].renumberAmounts();
-		render();
+		app.fetchValues();
+		app.cashup.persons[personIndex].removeAmount(index);
+		app.cashup.persons[personIndex].renumberAmounts();
+		app.render();
 	}
 
 	var cashupAction = function(e) {
 		e.preventDefault();
-		fetchValues();
-		if(!cashup.validateAmounts()) {
-			render();
+		app.fetchValues();
+		if(!app.cashup.validateAmounts()) {
+			app.render();
 			dom.cashupResult.classList.remove("hidden");
 			return false;
 		}
-		cashup.cashup();
-		cashup.setRealSumOfPersons();
-		render();
-		dom.cashupResult.classList.remove("hidden");
-		dom.dbForm.classList.remove("hidden");
+		app.cashup.cashup();
+		app.cashup.setRealSumOfPersons();
+		app.render();
+		app.dom.cashupResult.classList.remove("hidden");
+		app.dom.dbForm.classList.remove("hidden");
 	}
 
 	var saveAction = function(e) {
@@ -226,59 +119,19 @@ cashup2.cashup = (function() {
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 		  if (this.readyState == 4 && this.status == 200) {
-		  	cashup.reset();
-		  	cashup.dbResult.text = this.responseText;
-		  	cashup.dbResult.class = "visible";
-		    dom.dbForm.classList.add("hidden");
-		    dom.cashupResult.classList.add("hidden");
-			render();
+		  	app.cashup.reset();
+		  	app.cashup.dbResult.text = this.responseText;
+		  	app.cashup.dbResult.class = "visible";
+		    app.dom.dbForm.classList.add("hidden");
+		    app.dom.cashupResult.classList.add("hidden");
+			app.render();
 		  }
 		};
 		xhttp.open("POST", "db.php", true);
-		xhttp.send(new FormData(dom.dbForm));
-	}
-
-	var focusLastAddedInput = function(index) {
-		var amountContainer = dom.amountsContainers[index];
-		var amounts = cashup.persons[index].amounts;
-		var lastIndex = amounts.length - 1;
-		var lastInput = amountContainer.children[lastIndex].querySelector(".amount_input");
-		lastInput.focus();
-	}
-
-	var findParentByClassName = function(element, className) {
-		while(!element.classList.contains(className)) {
-			element = element.parentElement;
-		}
-		return element;
-	}
-
-	// Update Data Structure, when buttons are pressed
-	var fetchValues = function() {
-		for (var i = 0; i < 2; i++) {
-			var amounts = cashup.persons[i].amounts;
-			var len = amounts.length;
-			for (var k = 0, amount, val; k < len; k++) {
-				amount = dom.amountsContainers[i]["children"][k];
-				val = amount.querySelector(".amount_input").value;
-				amounts[k].setValue(val);
-			}
-		}
-	}
-
-	// Render Objects to html
-	var render = function() {
-		view = Mustache.render(template, cashup);
-		dom.appContainer.innerHTML = view;
-		cacheDOM();
-		addEvents();
+		xhttp.send(new FormData(app.dom.dbForm));
 	}
 
 	return {
-		init: init,
-		api: cashup,
-		constructors: {
-			Cashup: Cashup
-		},
+		init: init
 	}
 }());

@@ -1,5 +1,5 @@
 var assert = chai.assert;
-var Cashup = cashup2.cashup.constructors.Cashup;
+var Cashup = cashup2.Cashup;
 var Person = cashup2.Person;
 var Amount = cashup2.Amount;
 
