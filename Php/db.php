@@ -8,16 +8,16 @@ $id_category = 1;
 $date = $_POST["date"];
 $person1 = $_POST["person1"];
 $person2 = $_POST["person2"];
-$amount1 = (float) $person1["amount"];
-$amount2 = (float) $person2["amount"];
+$amount1 = (float)$person1["amount"];
+$amount2 = (float)$person2["amount"];
 
 $query = "INSERT INTO amount VALUES 
 			(NULL, $amount1, '$date', $id_person1, $id_category),
 			(NULL, $amount2, '$date', $id_person2, $id_category);";
 try {
-	$mysqli->query($query);
+    $mysqli->query($query);
 } catch (Exception $e) {
-	echo "Oops, something went wrong";
+    echo "Oops, something went wrong";
 }
 
 echo "Danke, Ihre Daten wurden erfolgreich eingetragen.";

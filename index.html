@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta lang="de">
-	<title>Kassensturz</title>
-	<script src="node_modules/mustache/mustache.min.js"></script>
-	<script src="JavaScript/Amount.js"></script>
-	<script src="JavaScript/Person.js"></script>
-	<script src="JavaScript/dateUtility.js"></script>
-	<script src="JavaScript/Cashup.js"></script>
-	<script src="JavaScript/core.js"></script>
-	<script src="JavaScript/cashup_app.js"></script>
-	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <meta charset="utf-8">
+    <meta lang="de">
+    <title>Kassensturz</title>
+    <script src="node_modules/mustache/mustache.min.js"></script>
+    <script src="JavaScript/Amount.js"></script>
+    <script src="JavaScript/Person.js"></script>
+    <script src="JavaScript/dateUtility.js"></script>
+    <script src="JavaScript/Cashup.js"></script>
+    <script src="JavaScript/core.js"></script>
+    <script src="JavaScript/cashup_app.js"></script>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <style>
+        #cashup_form,
+        #cashup_db {
+            padding: 0 0 15px;
+        }
+
+        .amount_remove.close {
+            font-size: 34px;
+        }
+    </style>
 </head>
 <body>
-	<style>
-		#cashup_form,
-		#cashup_db {
-			padding: 0 0 15px;
-		}
-		.amount_remove.close {
-			font-size: 34px;
-		}
-	</style>
-	<div id="cashup"></div>
-	<script>
-		cashup2.cashup.init({
-			id: "cashup",
-			names: ["Lisa", "Nikita"],
-			templatePath: "Templates/cashup_app.html",
-			displayPastMonths: 2,
-		});
-	</script>
+
+<div id="cashup"></div>
+<script>
+    cashup2.cashup.init({
+        id: "cashup",
+        names: ["Lisa", "Nikita"],
+        templatePath: "Templates/cashup_app.html",
+        displayPastMonths: 2,
+    });
+</script>
 </body>
 </html>
