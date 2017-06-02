@@ -45,8 +45,9 @@ define(function () {
 
         getPastDate: function (months) {
             var date = new Date();
-            date.setMonth(date.getMonth() - months);
-            date.setDate(1);
+            date.setUTCMonth(date.getMonth() - months);
+            date.setUTCDate(1);
+            date.setUTCHours(0,0,0,0);
             return date;
         }
     }
