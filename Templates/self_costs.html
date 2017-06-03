@@ -13,16 +13,24 @@
                       {{/db_persons}}
                       </select>
                   </div>
+                  <div class="col-md-4">
+                      <label for="select_category">Kategorie auswählen</label>
+                      <select id="select_category" class="form-control" name="person_id">
+                      {{#db_categories}}
+                      <option value="{{id_category}}" {{selected}}>{{name}}</option>
+                      {{/db_categories}}
+                      </select>
+                  </div>
               </div>
             <div class="row">
             {{#persons}}
               <div class="col-md-6">
-                <div id="{{personId}}_person" class="amounts_wrapper">
-                  <button id="{{personId}}_add_button" class="add_button btn btn-lg btn-success">
+                <div id="1_person" class="amounts_wrapper">
+                  <button id="1_add_button" class="add_button btn btn-lg btn-success">
                     <span class="glyphicon glyphicon-plus"></span>
                   </button>
                   <h2>{{name}}</h2>
-                  <div id="{{personId}}_amounts" class="amounts_container">
+                  <div id="1_amounts" class="amounts_container">
                     {{#amounts}}
                     <div class="amount form-group">
                       <div class="row">
@@ -51,9 +59,41 @@
           </fieldset>
         </form>
         <div id="sum_result" class="jumbotron text-center {{result.class}}"><p>{{result.text}}</p></div>
-      <div id="db_result" class="jumbotron text-center {{dbResult.class}}">
-          <p>{{dbResult.text}}</p>
-      </div>
+        <form id="selfcost_db_form">
+            <fieldset>
+                <legend>Betrag speichern</legend>
+                <input type="hidden" value="selfcost" name="type"/>
+                <input type="hidden" value="{{id_category}}" name="categoryID">
+                {{#persons}}
+                    <input type="hidden" name="sum" value="{{getSum}}">
+                    <input type="hidden" name="personID" value="{{personId}}">
+                {{/persons}}
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="form-group">
+                            <label for="date_select">Für den Monat</label>
+                            <select id="date_select" class="form-control" name="date">
+                                {{#lastMonths}}
+                                <option value="{{value}}">{{displayString}}</option>
+                                {{/lastMonths}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button id="selfcost_save_button" class="btn btn-primary" type="submit" name="submit">
+                                Speichern
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div id="db_result" class="jumbotron text-center {{dbResult.class}}">
+            <p>{{dbResult.text}}</p>
+        </div>
     </div>
   </div>
 </div>

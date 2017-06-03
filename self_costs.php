@@ -5,6 +5,11 @@
     while ($row = $res->fetch_assoc()) {
         $persons[] = $row;
     }
+    $res = $mysqli->query("SELECT id_category, name FROM category");
+    $categories = [];
+    while ($row = $res->fetch_assoc()) {
+        $categories[] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -12,7 +17,10 @@
     <meta charset="utf-8">
     <title>Eigenkosten</title>
     <script src="JavaScript/require.js"></script>
-    <script><?="var db_persons = " . json_encode($persons) . ";";?></script>
+    <script>
+        <?="var db_persons = " . json_encode($persons) . ";";?>
+        <?="var db_categories = " . json_encode($categories) . ";";?>
+    </script>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
     <style>
         #selfcost_form {
@@ -38,6 +46,7 @@
         self_costs.init({
             id: "selfcosts",
             templatePath: "Templates/self_costs.html",
+            displayPastMonths: 4,
         });
     });
 </script>
