@@ -37,6 +37,16 @@
     </style>
 </head>
 <body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class=""><a href="index.html">Kassensturz</a></li>
+                <li class="active"><a href="#">Eigenkosten</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 <div id="selfcosts"></div>
 <script>
     requirejs.config({
