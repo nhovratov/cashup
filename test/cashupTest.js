@@ -1,17 +1,16 @@
 require.config({
     baseUrl: '../JavaScript'
 });
-require(['app/Amount', 'app/Person', 'app/Cashup'], function(Amount, Person, Cashup) {
+require(
+    [
+        'app/Amount',
+        'app/Person',
+        'app/Cashup'
+    ], function(Amount, Person, Cashup) {
     var assert = chai.assert;
     mocha.setup('bdd');
+
     describe("Cashup", function () {
-        describe("constructor", function () {
-            it("should have the constructor Cashup", function () {
-                var cashup = new Cashup();
-                var proto = Object.getPrototypeOf(cashup);
-                assert(proto.constructor === Cashup, "Cashup is not the constructor");
-            });
-        });
         describe("addPerson", function () {
             it("should add a Person to the persons array", function () {
                 var cashup = new Cashup();
@@ -111,13 +110,6 @@ require(['app/Amount', 'app/Person', 'app/Cashup'], function(Amount, Person, Cas
     });
 
     describe("Person", function () {
-        describe("constructor", function () {
-            it("should have the constructor Person", function () {
-                var person = new Person("Nikita");
-                var proto = Object.getPrototypeOf(person);
-                assert(proto.constructor === Person, "Person is not the constructor");
-            });
-        });
         describe("addAmount", function () {
             it("should add an Amount to the list", function () {
                 var person = new Person("Nikita");
@@ -213,13 +205,6 @@ require(['app/Amount', 'app/Person', 'app/Cashup'], function(Amount, Person, Cas
     });
 
     describe("Amount", function () {
-        describe("constructor", function () {
-            it("should have the constructor Amount", function () {
-                var amount = new Amount();
-                var proto = Object.getPrototypeOf(amount);
-                assert(proto.constructor === Amount, "Amount is not the constructor");
-            });
-        });
         describe("setValue", function () {
             it("should set a value of the Amount", function () {
                 var amount = new Amount();
