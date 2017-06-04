@@ -1,2 +1,3 @@
 INSERT INTO category VALUES
-(NULL, 'Lebensmittel');
+(NULL, 'Lebensmittel'),
+(NULL, 'Haushaltsgegenstand');
