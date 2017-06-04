@@ -42,6 +42,7 @@
         app.dom.sumResult           = app.dom.appContainer.querySelector("#sum_result");
         app.dom.calcButton          = app.dom.appContainer.querySelector("#sum_calc");
         app.dom.selectPerson        = app.dom.appContainer.querySelector("#select_dbperson");
+        app.dom.selectcategory      = app.dom.appContainer.querySelector("#select_category");
         app.dom.dbForm              = app.dom.appContainer.querySelector("#selfcost_db_form");
         app.dom.saveDbButton        = app.dom.appContainer.querySelector("#selfcost_save_button");
         app.dom.dbSum               = app.dom.appContainer.querySelector("#db_sum");
@@ -55,6 +56,7 @@
         });
         app.dom.calcButton.addEventListener("click", calculateSumAction);
         app.dom.selectPerson.addEventListener("change", selectPersonAction);
+        app.dom.selectcategory.addEventListener("change", selectCategoryAction);
         app.dom.saveDbButton.addEventListener("click", saveAction);
     };
 
@@ -106,7 +108,6 @@
        app.render();
      };
 
-     // TODO add this event
      var selectCategoryAction = function (e) {
          var index = Number(e.explicitOriginalTarget.value) - 1;
          app.cashup.db_categories.forEach(function (el) {
