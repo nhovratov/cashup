@@ -6,20 +6,21 @@
      'app/DefaultApp',
      'app/Amount',
      'app/Person',
-     'app/Cashup',
+     'app/PersonStorage',
      'app/Statusbox',
      'app/dateUtility'
- ], function (DefaultApp, Amount, Person, Cashup,  StatusBox, dateUtility) {
+ ], function (DefaultApp, Amount, Person, PersonStorage,  StatusBox, dateUtility) {
      "use strict";
     var app = new DefaultApp();
 
     var init = function (config) {
-        app.personStorage = new Cashup();
+        app.personStorage = new PersonStorage();
         app.personStorage.db_persons = db_persons;
         app.personStorage.db_categories = db_categories;
         app.personStorage.id_category = db_categories[0].id_category;
         app.personStorage.addPerson(app.personStorage.db_persons[0]['vorname']);
         app.dom.appContainer = document.getElementById(config.id);
+        app.personStorage.result = new StatusBox();
         app.personStorage.dbResult = new StatusBox();
         if (!app.dom.appContainer) {
             console.warn("Can't find the id in config.id");
@@ -32,6 +33,7 @@
         app.personStorage.lastMonths = dateUtility.getLastMonths();
         // Gets the template and renders the view
         app.getTemplate(config.templatePath);
+        console.log(app.personStorage);
     };
 
     app.cacheDOM = function () {
