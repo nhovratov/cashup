@@ -33,7 +33,6 @@
         app.personStorage.lastMonths = dateUtility.getLastMonths();
         // Gets the template and renders the view
         app.getTemplate(config.templatePath);
-        console.log(app.personStorage);
     };
 
     app.cacheDOM = function () {
@@ -100,7 +99,7 @@
      };
 
      var selectPersonAction = function (e) {
-       var index = Number(e.explicitOriginalTarget.value) - 1;
+       var index = Number(e.target.value) - 1;
        app.personStorage.db_persons.forEach(function (el) {
           el["selected"] = "";
        });
@@ -111,7 +110,7 @@
      };
 
      var selectCategoryAction = function (e) {
-         var index = Number(e.explicitOriginalTarget.value) - 1;
+         var index = Number(e.target.value) - 1;
          app.personStorage.db_categories.forEach(function (el) {
              el["selected"] = "";
          });
