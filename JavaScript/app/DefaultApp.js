@@ -1,3 +1,12 @@
+/**
+ * Dependancies
+ * - appContainer
+ * - amountsContainer:
+ *  <div class="amounts_container">
+         <input class="amount_input"/>
+    </div>
+ */
+
 define(['lib/mustache'], function (Mustache) {
     "use strict";
     function DefaultApp() {
@@ -6,13 +15,15 @@ define(['lib/mustache'], function (Mustache) {
         this.dom = {};
         this.dom.appContainer = {};
         this.dom.amountsContainers = {};
-        // Interfaces
-        this.init = function () {
-        };
-        this.cacheDOM = function () {
-        };
-        this.addEvents = function () {
-        };
+
+        // Initial setup
+        this.init = function () {};
+
+        // Cashes the dom in this.dom for further use
+        this.cacheDOM = function () {};
+
+        // Register all kind of events
+        this.addEvents = function () {};
     }
 
     DefaultApp.prototype.getTemplate = function (path) {
