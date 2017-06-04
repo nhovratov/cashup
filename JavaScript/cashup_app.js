@@ -48,17 +48,17 @@ define(
 
     // Interfaces to implement
     app.cacheDOM = function () {
-        app.dom.addAmountButtons    = app.dom.appContainer.querySelectorAll(".add_button");
-        app.dom.calcButton          = app.dom.appContainer.querySelector("#cashup_calc");
-        app.dom.amountsContainers   = app.dom.appContainer.querySelectorAll(".amounts_container");
-        app.dom.removeAmountButtons = app.dom.appContainer.querySelectorAll(".amount_remove");
-        app.dom.cashupResult        = app.dom.appContainer.querySelector("#cashup_result");
-        app.dom.inputFields         = app.dom.appContainer.querySelectorAll(".amount_input");
-        app.dom.dbForm              = app.dom.appContainer.querySelector("#cashup_db");
-        app.dom.dbSums              = app.dom.appContainer.querySelectorAll(".db_sum");
-        app.dom.dbOwn               = app.dom.appContainer.querySelectorAll(".db_own_amount");
-        app.dom.dbSave              = app.dom.appContainer.querySelector("#db_save");
-        app.dom.dbResult            = app.dom.appContainer.querySelector("#db_result");
+        app.dom.addAmountButtons    = app.dom.appContainer.querySelectorAll  (".add_button");
+        app.dom.calcButton          = app.dom.appContainer.querySelector     ("#cashup_calc");
+        app.dom.amountsContainers   = app.dom.appContainer.querySelectorAll  (".amounts_container");
+        app.dom.removeAmountButtons = app.dom.appContainer.querySelectorAll  (".amount_remove");
+        app.dom.cashupResult        = app.dom.appContainer.querySelector     ("#cashup_result");
+        app.dom.inputFields         = app.dom.appContainer.querySelectorAll  (".amount_input");
+        app.dom.dbForm              = app.dom.appContainer.querySelector     ("#cashup_db");
+        app.dom.dbSums              = app.dom.appContainer.querySelectorAll  (".db_sum");
+        app.dom.dbOwn               = app.dom.appContainer.querySelectorAll  (".db_own_amount");
+        app.dom.dbSave              = app.dom.appContainer.querySelector     ("#db_save");
+        app.dom.dbResult            = app.dom.appContainer.querySelector     ("#db_result");
     };
 
     app.addEvents = function () {

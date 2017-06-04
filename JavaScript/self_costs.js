@@ -37,17 +37,17 @@
     };
 
     app.cacheDOM = function () {
-        app.dom.selfcostForm        = app.dom.appContainer.querySelector("#selfcost_form");
-        app.dom.addAmountButton     = app.dom.appContainer.querySelector(".add_button");
+        app.dom.selfcostForm        = app.dom.appContainer.querySelector   ("#selfcost_form");
+        app.dom.addAmountButton     = app.dom.appContainer.querySelector   (".add_button");
         app.dom.removeAmountButtons = app.dom.appContainer.querySelectorAll(".amount_remove");
         app.dom.amountsContainers   = app.dom.appContainer.querySelectorAll(".amounts_container");
-        app.dom.sumResult           = app.dom.appContainer.querySelector("#sum_result");
-        app.dom.calcButton          = app.dom.appContainer.querySelector("#sum_calc");
-        app.dom.selectPerson        = app.dom.appContainer.querySelector("#select_dbperson");
-        app.dom.selectcategory      = app.dom.appContainer.querySelector("#select_category");
-        app.dom.dbForm              = app.dom.appContainer.querySelector("#selfcost_db_form");
-        app.dom.saveDbButton        = app.dom.appContainer.querySelector("#selfcost_save_button");
-        app.dom.dbSum               = app.dom.appContainer.querySelector("#db_sum");
+        app.dom.sumResult           = app.dom.appContainer.querySelector   ("#sum_result");
+        app.dom.calcButton          = app.dom.appContainer.querySelector   ("#sum_calc");
+        app.dom.selectPerson        = app.dom.appContainer.querySelector   ("#select_dbperson");
+        app.dom.selectcategory      = app.dom.appContainer.querySelector   ("#select_category");
+        app.dom.dbForm              = app.dom.appContainer.querySelector   ("#selfcost_db_form");
+        app.dom.saveDbButton        = app.dom.appContainer.querySelector   ("#selfcost_save_button");
+        app.dom.dbSum               = app.dom.appContainer.querySelector   ("#db_sum");
 
     };
 
