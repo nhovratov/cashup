@@ -17,8 +17,10 @@ define(
     function (DefaultApp, dateUtility, Amount, Person, Cashup) {
         "use strict";
         // The global app
+        /** @type {DefaultApp} */
         var app = new DefaultApp();
-        app.cashup = new Cashup();
+        /** @type {Cashup} */
+        app.personStorage = new Cashup();
 
     // Initialise app with passed config
     var init = function (config) {
@@ -35,11 +37,11 @@ define(
         if (config.displayPastMonths) {
             dateUtility.displayPastMonths = config.displayPastMonths;
         }
-        app.cashup.lastMonths = dateUtility.getLastMonths();
+        app.personStorage.lastMonths = dateUtility.getLastMonths();
 
         // Add persons
-        app.cashup.addPerson(config.names[0]);
-        app.cashup.addPerson(config.names[1]);
+        app.personStorage.addPerson(config.names[0]);
+        app.personStorage.addPerson(config.names[1]);
         // Gets the template and renders the view
         app.getTemplate(config.templatePath);
     };
@@ -83,7 +85,7 @@ define(
         var parent = app.findParentByClassName(e.target, "amounts_wrapper");
         var index = parseInt(parent.id) - 1;
         app.fetchValues();
-        app.cashup.persons[index].addAmount();
+        app.personStorage.persons[index].addAmount();
         app.render();
         app.focusLastAddedInput(index);
     };
@@ -96,21 +98,21 @@ define(
         var personIndex = parseInt(parent.id) - 1;
         var index = Array.prototype.indexOf.call(parent.children, child);
         app.fetchValues();
-        app.cashup.persons[personIndex].removeAmount(index);
-        app.cashup.persons[personIndex].renumberAmounts();
+        app.personStorage.persons[personIndex].removeAmount(index);
+        app.personStorage.persons[personIndex].renumberAmounts();
         app.render();
     };
 
     var cashupAction = function (e) {
         e.preventDefault();
         app.fetchValues();
-        if (!app.cashup.validateAmounts()) {
+        if (!app.personStorage.validateAmounts()) {
             app.render();
             app.dom.cashupResult.classList.remove("hidden");
             return false;
         }
-        app.cashup.cashup();
-        app.cashup.setRealSumOfPersons();
+        app.personStorage.cashup();
+        app.personStorage.setRealSumOfPersons();
         app.render();
         app.dom.cashupResult.classList.remove("hidden");
         app.dom.dbForm.classList.remove("hidden");
@@ -121,9 +123,9 @@ define(
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                app.cashup.reset();
-                app.cashup.dbResult.text = this.responseText;
-                app.cashup.dbResult.class = "visible";
+                app.personStorage.reset();
+                app.personStorage.dbResult.text = this.responseText;
+                app.personStorage.dbResult.class = "visible";
                 app.dom.dbForm.classList.add("hidden");
                 app.dom.cashupResult.classList.add("hidden");
                 app.render();

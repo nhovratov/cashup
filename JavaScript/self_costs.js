@@ -14,13 +14,13 @@
     var app = new DefaultApp();
 
     var init = function (config) {
-        app.cashup = new Cashup();
-        app.cashup.db_persons = db_persons;
-        app.cashup.db_categories = db_categories;
-        app.cashup.id_category = db_categories[0].id_category;
-        app.cashup.addPerson(app.cashup.db_persons[0]['vorname']);
+        app.personStorage = new Cashup();
+        app.personStorage.db_persons = db_persons;
+        app.personStorage.db_categories = db_categories;
+        app.personStorage.id_category = db_categories[0].id_category;
+        app.personStorage.addPerson(app.personStorage.db_persons[0]['vorname']);
         app.dom.appContainer = document.getElementById(config.id);
-        app.cashup.dbResult = new StatusBox();
+        app.personStorage.dbResult = new StatusBox();
         if (!app.dom.appContainer) {
             console.warn("Can't find the id in config.id");
             return;
@@ -29,7 +29,7 @@
         if (config.displayPastMonths) {
             dateUtility.displayPastMonths = config.displayPastMonths;
         }
-        app.cashup.lastMonths = dateUtility.getLastMonths();
+        app.personStorage.lastMonths = dateUtility.getLastMonths();
         // Gets the template and renders the view
         app.getTemplate(config.templatePath);
     };
@@ -71,7 +71,7 @@
          var parent = app.findParentByClassName(e.target, "amounts_wrapper");
          var index = parseInt(parent.id) - 1;
          app.fetchValues();
-         app.cashup.persons[index].addAmount();
+         app.personStorage.persons[index].addAmount();
          app.render();
          app.focusLastAddedInput(index);
      };
@@ -84,37 +84,37 @@
          var personIndex = parseInt(parent.id) - 1;
          var index = Array.prototype.indexOf.call(parent.children, child);
          app.fetchValues();
-         app.cashup.persons[personIndex].removeAmount(index);
-         app.cashup.persons[personIndex].renumberAmounts();
+         app.personStorage.persons[personIndex].removeAmount(index);
+         app.personStorage.persons[personIndex].renumberAmounts();
          app.render();
      };
 
      var calculateSumAction = function (e) {
          e.preventDefault();
          app.fetchValues();
-         app.cashup.result.text = 'Die Summe Beträgt: ' + app.cashup.persons[0].getSum() + ' Euro.';
-         app.cashup.result.class = 'visible';
+         app.personStorage.result.text = 'Die Summe Beträgt: ' + app.personStorage.persons[0].getSum() + ' Euro.';
+         app.personStorage.result.class = 'visible';
          app.render();
      };
 
      var selectPersonAction = function (e) {
        var index = Number(e.explicitOriginalTarget.value) - 1;
-       app.cashup.db_persons.forEach(function (el) {
+       app.personStorage.db_persons.forEach(function (el) {
           el["selected"] = "";
        });
-       app.cashup.persons[0].name = app.cashup.db_persons[index].vorname;
-       app.cashup.persons[0].personId = app.cashup.db_persons[index].id_person;
-       app.cashup.db_persons[index]["selected"] = "selected";
+       app.personStorage.persons[0].name = app.personStorage.db_persons[index].vorname;
+       app.personStorage.persons[0].personId = app.personStorage.db_persons[index].id_person;
+       app.personStorage.db_persons[index]["selected"] = "selected";
        app.render();
      };
 
      var selectCategoryAction = function (e) {
          var index = Number(e.explicitOriginalTarget.value) - 1;
-         app.cashup.db_categories.forEach(function (el) {
+         app.personStorage.db_categories.forEach(function (el) {
              el["selected"] = "";
          });
-         app.cashup.db_categories[index]["selected"] = "selected";
-         app.cashup.id_category = app.cashup.db_categories[index].id_category;
+         app.personStorage.db_categories[index]["selected"] = "selected";
+         app.personStorage.id_category = app.personStorage.db_categories[index].id_category;
          app.render();
      };
 
@@ -123,10 +123,10 @@
          var xhttp = new XMLHttpRequest();
          xhttp.onreadystatechange = function () {
              if (this.readyState === 4 && this.status === 200) {
-                 app.cashup.reset();
-                 app.cashup.dbResult.text = this.responseText;
-                 app.cashup.dbResult.class = "visible";
-                 app.cashup.result.class = "hidden";
+                 app.personStorage.reset();
+                 app.personStorage.dbResult.text = this.responseText;
+                 app.personStorage.dbResult.class = "visible";
+                 app.personStorage.result.class = "hidden";
                  app.render();
              }
          };

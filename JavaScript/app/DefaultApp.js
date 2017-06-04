@@ -10,7 +10,7 @@
 define(['lib/mustache'], function (Mustache) {
     "use strict";
     function DefaultApp() {
-        this.cashup = {};
+        this.personStorage = {};
         this.template = '';
         this.dom = {};
         this.dom.appContainer = {};
@@ -42,15 +42,15 @@ define(['lib/mustache'], function (Mustache) {
 
     // Render Objects to html
     DefaultApp.prototype.render = function () {
-        this.dom.appContainer.innerHTML = Mustache.render(this.template, this.cashup);
+        this.dom.appContainer.innerHTML = Mustache.render(this.template, this.personStorage);
         this.cacheDOM();
         this.addEvents();
     };
 
     // Update Data Structure, when buttons are pressed
     DefaultApp.prototype.fetchValues = function () {
-        for (var i = 0; i < this.cashup.persons.length; i++) {
-            var amounts = this.cashup.persons[i].amounts;
+        for (var i = 0; i < this.personStorage.persons.length; i++) {
+            var amounts = this.personStorage.persons[i].amounts;
             var len = amounts.length;
             for (var k = 0, amount, val; k < len; k++) {
                 amount = this.dom.amountsContainers[i]["children"][k];
@@ -62,7 +62,7 @@ define(['lib/mustache'], function (Mustache) {
 
     DefaultApp.prototype.focusLastAddedInput = function (index) {
         var amountContainer = this.dom.amountsContainers[index];
-        var amounts = this.cashup.persons[index].amounts;
+        var amounts = this.personStorage.persons[index].amounts;
         var lastIndex = amounts.length - 1;
         var lastInput = amountContainer.children[lastIndex].querySelector(".amount_input");
         lastInput.focus();
