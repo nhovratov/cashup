@@ -21,7 +21,7 @@ define(['lib/mustache'], function (Mustache) {
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 app.template = this.responseText;
-                Mustache.parse(this.template);
+                Mustache.parse(app.template);
                 app.render();
             }
         };
