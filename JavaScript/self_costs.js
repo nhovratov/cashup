@@ -106,6 +106,7 @@
        app.render();
      };
 
+     // TODO add this event
      var selectCategoryAction = function (e) {
          var index = Number(e.explicitOriginalTarget.value) - 1;
          app.cashup.db_categories.forEach(function (el) {

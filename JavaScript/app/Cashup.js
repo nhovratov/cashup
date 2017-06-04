@@ -1,4 +1,9 @@
-define(['app/Person', 'app/Statusbox'], function (Person, StatusBox) {
+
+define([
+    'app/PersonStorage',
+    'app/Person',
+    'app/Statusbox'
+], function (PersonStorage, Person, StatusBox) {
     "use strict";
     function Cashup() {
         this.persons = [];
@@ -7,15 +12,9 @@ define(['app/Person', 'app/Statusbox'], function (Person, StatusBox) {
         this.lastMonths = [];
     }
 
-    Cashup.prototype.addPerson = function (name) {
-        var index;
-        if (this.persons.length === 2) {
-            console.error("Only 2 persons are allowed!");
-            return;
-        }
-        index = this.persons.push(new Person(name));
-        this.persons[this.persons.length - 1].personId = index;
-    };
+    // Inheritance
+    Cashup.prototype = new PersonStorage();
+    Cashup.prototype.constructor = Cashup;
 
     Cashup.prototype.validateAmounts = function () {
         var p1 = this.persons[0];
@@ -60,19 +59,6 @@ define(['app/Person', 'app/Statusbox'], function (Person, StatusBox) {
 
     };
 
-    Cashup.prototype.getFullSum = function () {
-        if (this.persons.length !== 2) {
-            console.error("Only possible with 2 persons");
-            return false;
-        }
-        var p1 = this.persons[0];
-        var p2 = this.persons[1];
-        var sum1 = Number(p1.getSum());
-        var sum2 = Number(p2.getSum());
-        var posSum = sum1 + sum2;
-        return posSum.toFixed(2);
-    };
-
     Cashup.prototype.setRealSumOfPersons = function () {
         var fullSum = this.getFullSum();
         this.persons.forEach(function (el) {
@@ -80,11 +66,6 @@ define(['app/Person', 'app/Statusbox'], function (Person, StatusBox) {
         });
     };
 
-    Cashup.prototype.reset = function () {
-        this.persons.forEach(function (person) {
-            person.amounts = [];
-        });
-    };
 
     return Cashup;
 
