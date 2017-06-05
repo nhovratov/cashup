@@ -124,6 +124,7 @@ define(
         app.status.result.show();
         app.status.dbForm.show();
         app.render();
+        location.href = "#cashup_result";
     };
 
     var saveAction = function (e) {
