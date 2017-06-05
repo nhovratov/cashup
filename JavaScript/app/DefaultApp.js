@@ -1,3 +1,4 @@
+
 /**
  * Dependancies
  * - appContainer
@@ -7,11 +8,13 @@
     </div>
  */
 
-define(['lib/mustache'], function (Mustache) {
+define(['lib/mustache', 'app/PersonStorage'], function (Mustache, PersonStorage) {
     "use strict";
     function DefaultApp() {
-        this.personStorage = {};
+        this.personStorage = new PersonStorage();
         this.template = '';
+        this.status = {};
+        this.lastMonths = [];
         this.dom = {};
         this.dom.appContainer = {};
         this.dom.amountsContainers = {};
@@ -42,7 +45,7 @@ define(['lib/mustache'], function (Mustache) {
 
     // Render Objects to html
     DefaultApp.prototype.render = function () {
-        this.dom.appContainer.innerHTML = Mustache.render(this.template, this.personStorage);
+        this.dom.appContainer.innerHTML = Mustache.render(this.template, this);
         this.cacheDOM();
         this.addEvents();
     };

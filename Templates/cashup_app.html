@@ -1,3 +1,4 @@
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -5,7 +6,7 @@
           <fieldset>
             <legend class="h1">Kassensturz</legend>
             <div class="row">
-            {{#persons}}
+            {{#personStorage.persons}}
               <div class="col-md-6">
                 <div id="{{personId}}_person" class="amounts_wrapper">
                   <button id="{{personId}}_add_button" class="add_button btn btn-lg btn-success">
@@ -33,17 +34,17 @@
                   <p class="amount_sum">Summe: <strong>{{getSum}}&#8364;</strong></p>
                 </div>
               </div>
-            {{/persons}}
+            {{/personStorage.persons}}
             </div>
             <button id="cashup_calc" class="btn btn-lg btn-primary pull-right" type="submit">
               Berechnen!
             </button>
           </fieldset>
         </form>
-        <div id="cashup_result" class="jumbotron text-center {{result.class}}">
-          <p>{{result.text}}</p>
+        <div id="cashup_result" class="jumbotron text-center {{status.result.class}}">
+          <p>{{status.result.text}}</p>
       </div>
-      <form id="cashup_db" class="hidden">
+      <form id="cashup_db" class="{{status.dbForm.class}}">
         <fieldset>
           <legend>Beträge speichern</legend>
           <div class="row">
@@ -60,7 +61,7 @@
           </div>
           <div class="row">
               <input type="hidden" value="cashup" name="type"/>
-          {{#persons}}
+          {{#personStorage.persons}}
             <div class="col-xs-6">
               <input type="hidden" name="person{{personId}}[name]" value="{{name}}">
               <input type="hidden" name="person{{personId}}[amount]" value="{{realSum}}">
@@ -80,15 +81,15 @@
                 </tbody>
               </table>
             </div>
-          {{/persons}}
+          {{/personStorage.persons}}
           </div>
           <div class="form-group">
             <input id="db_save" class="btn btn-lg btn-primary pull-right" type="submit" name="submit_db" value="Speichern"/>
           </div>
         </fieldset>
       </form>
-      <div id="db_result" class="jumbotron text-center {{dbResult.class}}">
-          <p>{{dbResult.text}}</p>
+      <div id="db_result" class="jumbotron text-center {{status.dbResult.class}}">
+          <p>{{status.dbResult.text}}</p>
       </div>
     </div>
   </div>

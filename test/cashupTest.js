@@ -1,6 +1,5 @@
-require.config({
-    baseUrl: '../JavaScript'
-});
+
+require.config({baseUrl: '../JavaScript'});
 require(
     [
         'app/Amount',
@@ -176,6 +175,7 @@ require(
             });
             it("should return the right due.", function () {
                 var cashup = new Cashup();
+                var result;
                 cashup.addPerson("Nikita");
                 cashup.addPerson("Lisa");
                 cashup.persons[0].addAmount(15);
@@ -184,8 +184,8 @@ require(
                 cashup.persons[1].addAmount(5);
                 cashup.persons[1].addAmount(15);
                 cashup.persons[1].addAmount(20.5);
-                cashup.cashup(true);
-                assert(cashup.result.text === "14.75", "Wrong value returned, expected 15");
+                result = cashup.cashup();
+                assert(result === "14.75", "Wrong value returned, expected 15");
             });
         });
         describe("setRealSumOfPersons", function () {

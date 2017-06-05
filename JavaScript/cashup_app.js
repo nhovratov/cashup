@@ -1,3 +1,4 @@
+
 /*
  cashup2, The second version of the tool for calculating the owe value between 2 persons,
  who share the costs in a household
@@ -12,9 +13,10 @@ define(
         'app/dateUtility',
         'app/Amount',
         'app/Person',
-        'app/Cashup'
+        'app/Cashup',
+        'app/Status'
     ],
-    function (DefaultApp, dateUtility, Amount, Person, Cashup) {
+    function (DefaultApp, dateUtility, Amount, Person, Cashup, Status) {
         "use strict";
         // The global app
         /** @type {DefaultApp} */
@@ -37,11 +39,17 @@ define(
         if (config.displayPastMonths) {
             dateUtility.displayPastMonths = config.displayPastMonths;
         }
-        app.personStorage.lastMonths = dateUtility.getLastMonths();
+        app.lastMonths = dateUtility.getLastMonths();
 
-        // Add persons
+        // Init Status
+        app.status.result = new Status();
+        app.status.dbResult = new Status();
+        app.status.dbForm = new Status();
+
+        // Add Persons
         app.personStorage.addPerson(config.names[0]);
         app.personStorage.addPerson(config.names[1]);
+        
         // Gets the template and renders the view
         app.getTemplate(config.templatePath);
     };
@@ -106,16 +114,16 @@ define(
     var cashupAction = function (e) {
         e.preventDefault();
         app.fetchValues();
-        if (!app.personStorage.validateAmounts()) {
+        if (!app.personStorage.validateAmounts(app.status.result)) {
+            app.status.result.show();
             app.render();
-            app.dom.cashupResult.classList.remove("hidden");
             return false;
         }
-        app.personStorage.cashup();
+        app.personStorage.cashup(app.status.result);
         app.personStorage.setRealSumOfPersons();
+        app.status.result.show();
+        app.status.dbForm.show();
         app.render();
-        app.dom.cashupResult.classList.remove("hidden");
-        app.dom.dbForm.classList.remove("hidden");
     };
 
     var saveAction = function (e) {
@@ -124,10 +132,10 @@ define(
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 app.personStorage.reset();
-                app.personStorage.dbResult.text = this.responseText;
-                app.personStorage.dbResult.class = "visible";
-                app.dom.dbForm.classList.add("hidden");
-                app.dom.cashupResult.classList.add("hidden");
+                app.status.dbResult.text = this.responseText;
+                app.status.dbResult.show();
+                app.status.dbForm.hide();
+                app.status.result.hide();
                 app.render();
             }
         };

@@ -1,3 +1,4 @@
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -23,7 +24,7 @@
                   </div>
               </div>
             <div class="row">
-            {{#persons}}
+            {{#personStorage.persons}}
               <div class="col-md-6">
                 <div id="1_person" class="amounts_wrapper">
                   <button id="1_add_button" class="add_button btn btn-lg btn-success">
@@ -51,23 +52,23 @@
                   <p class="amount_sum">Summe: <strong>{{getSum}}&#8364;</strong></p>
                 </div>
               </div>
-            {{/persons}}
+            {{/personStorage.persons}}
             </div>
             <button id="sum_calc" class="btn btn-lg btn-primary pull-right" type="submit">
               Berechnen!
             </button>
           </fieldset>
         </form>
-        <div id="sum_result" class="jumbotron text-center {{result.class}}"><p>{{result.text}}</p></div>
-        <form id="selfcost_db_form">
+        <div id="sum_result" class="jumbotron text-center {{status.result.class}}"><p>{{status.result.text}}</p></div>
+        <form id="selfcost_db_form" class="{{status.dbForm.class}}">
             <fieldset>
                 <legend>Betrag speichern</legend>
                 <input type="hidden" value="selfcost" name="type"/>
                 <input type="hidden" value="{{id_category}}" name="categoryID">
-                {{#persons}}
+                {{#personStorage.persons}}
                     <input type="hidden" name="sum" value="{{getSum}}">
                     <input type="hidden" name="personID" value="{{personId}}">
-                {{/persons}}
+                {{/personStorage.persons}}
                 <div class="row">
                     <div class="col-xs-2">
                         <div class="form-group">
@@ -91,8 +92,8 @@
                 </div>
             </fieldset>
         </form>
-        <div id="db_result" class="jumbotron text-center {{dbResult.class}}">
-            <p>{{dbResult.text}}</p>
+        <div id="db_result" class="jumbotron text-center {{status.dbResult.class}}">
+            <p>{{status.dbResult.text}}</p>
         </div>
     </div>
   </div>

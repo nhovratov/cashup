@@ -1,16 +1,23 @@
+
 <?php
-    require_once ("Php/db_connection.php");
+
+    require_once("Php/db_connection.php");
     $res = $mysqli->query("SELECT id_person, vorname, nachname FROM person");
     $persons = [];
+
     while ($row = $res->fetch_assoc()) {
         $persons[] = $row;
     }
+
     $res = $mysqli->query("SELECT id_category, name FROM category");
     $categories = [];
+
     while ($row = $res->fetch_assoc()) {
         $categories[] = $row;
-}
+    }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
