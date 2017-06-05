@@ -102,6 +102,7 @@
          app.status.result.show();
          app.status.dbForm.show();
          app.render();
+         location.href = "#sum_result";
      };
 
      var selectPersonAction = function (e) {
