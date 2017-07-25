@@ -1,6 +1,6 @@
 
 /*
-    Add your own costs, which you don't share with anyone to track your spended money!
+    Add your own costs, which you don't share with anyone to track your spent money!
  */
  define([
      'app/DefaultApp',
