@@ -8,6 +8,7 @@
     while ($row = $res->fetch_assoc()) {
         $persons[] = $row;
     }
+    var_dump($persons);
 
     $res = $mysqli->query("SELECT id_category, name FROM category");
     $categories = [];
@@ -48,8 +49,9 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class=""><a href="index.html">Kassensturz</a></li>
-                <li class="active"><a href="#">Eigenkosten</a></li>
+                <li><a href="index.html">Kassensturz</a></li>
+                <li class="active"><a href="self_costs.php">Eigenkosten</a></li>
+                <li><a href="statistics.php">Statistiken</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
