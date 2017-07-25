@@ -11,7 +11,8 @@ SELECT
   person.id_person,
   vorname,
   amount.date,
-  ROUND(SUM(amount.value), 2) as summe
+  ROUND(SUM(amount.value), 2) as summe,
+  ROUND(SUM(amount.value) / 4, 2) as avg
 FROM person
 INNER JOIN amount
 ON person.id_person = amount.id_person
@@ -48,7 +49,7 @@ GROUP BY person.vorname, amount.date")
 </nav>
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <h1>Statistiken</h1>
             <table class="table">
                 <thead>
@@ -56,6 +57,7 @@ GROUP BY person.vorname, amount.date")
                     <th>Name</th>
                     <th>Monat</th>
                     <th>Summe</th>
+                    <th>Durchschnitt pro Woche</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -65,6 +67,7 @@ GROUP BY person.vorname, amount.date")
                         echo "<td>$data[vorname]</td>";
                         echo "<td>$data[date]</td>";
                         echo "<td>" . number_format($data["summe"], 2, ',', ".") . "&#8364;</td>";
+                        echo "<td>" . number_format($data["avg"], 2, ',', ".") . "&#8364;</td>";
                         echo "</tr>";
                     }
                 ?>
