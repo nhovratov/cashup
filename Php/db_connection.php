@@ -1,2 +1,2 @@
 <?php
-$mysqli = new mysqli("localhost", "nikita", "dev", "home");
+return new mysqli("localhost", "nikita", "dev", "home");

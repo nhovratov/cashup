@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli("localhost", "nikita", "dev", "home");
+$mysqli = require_once "db_connection.php";
 $type = $_POST['type'];
 call_user_func($type . "Query", $mysqli);
 

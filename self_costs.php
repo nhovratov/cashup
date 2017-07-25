@@ -1,7 +1,7 @@
 
 <?php
 
-    require_once("Php/db_connection.php");
+    $mysqli = require_once("Php/db_connection.php");
     $res = $mysqli->query("SELECT id_person, vorname, nachname FROM person");
     $persons = [];
 
