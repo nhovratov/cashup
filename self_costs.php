@@ -8,7 +8,6 @@
     while ($row = $res->fetch_assoc()) {
         $persons[] = $row;
     }
-    var_dump($persons);
 
     $res = $mysqli->query("SELECT id_category, name FROM category");
     $categories = [];
